@@ -1,9 +1,9 @@
 @extends('layouts.template')
-@section('tittlePage', 'Barang')
-@section('tittleContent', 'Barang')
+@section('tittlePage', 'Rak Penyimpanan')
+@section('tittleContent', 'Rak Penyimpanan')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Master Barang</li>
+    <li class="breadcrumb-item active">Master Rak Penyimpanan</li>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -21,30 +21,26 @@
             <thead>
               <tr>
                 <th class="text-center" width="5%">#</th>
-                <th class="text-center">Kode</th>
+                <th class="text-center">Area</th>
+                <th class="text-center">Jumlah Row</th>
                 <th class="text-center">Nama</th>
-                <th class="text-center" width="5%">Kategori</th>
-                <th class="text-center" width="5%">Satuan</th>
-                <th class="text-center" width="5%">Kapasitas</th>
-                <th class="text-center">Keterangan</th>
-                <th class="text-center">Aksi</th>
+                <th class="text-center">Status</th>
+                <th class="text-center" width="20%">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($item as $item)
+              @foreach ($rack as $rack)
                 <tr>
                   <td class="text-center">{{ $loop->iteration }}</td>
-                  <td>{{ $item->code }}</td>
-                  <td>{{ $item->name }}</td>
-                  <td>{{ $item->category->code }}</td>
-                  <td>{{ $item->unit->code }}</td>
-                  <td class="text-right">{{ $item->capacity }}</td>
-                  <td>{{ $item->description }}</td>
+                  <td>{{ $rack->area }}</td>
+                  <td>{{ $rack->row }}</td>
+                  <td>{{ $rack->name }}</td>
+                  <td>{{ $rack->status }}</td>
                   <td class="text-center">
-                    <form action="{{ route('item.destroy', $item->id) }}" method="POST">
+                    <form action="{{ route('rack.destroy', $rack->id) }}" method="POST">
                       @method('delete')
                       @csrf
-                      <a href="{{ route('item.edit', $item->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
+                      <a href="{{ route('rack.edit', $rack->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
                       <button type="submit" class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
@@ -65,4 +61,4 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-@include('master.item.create')
+@include('master.rack.create')

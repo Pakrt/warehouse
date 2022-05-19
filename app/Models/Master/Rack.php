@@ -5,20 +5,17 @@ namespace App\Models\Master;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Rack extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'code',
+        'area',
+        'row',
         'name',
+        'status',
         'created_by',
         'updated_by',
         'created_at',
         'updated_at',
     ];
-
-    public function item()
-    {
-        return $this->hasMany(Item::class);
-    }
 }

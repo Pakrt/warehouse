@@ -1,14 +1,4 @@
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('template')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="javascript:void(0)" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -60,7 +50,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="javascript:void(0)" class="nav-link">
+                <a href="{{ route('rack.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rak Penyimpanan</p>
                 </a>
