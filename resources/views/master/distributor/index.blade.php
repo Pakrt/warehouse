@@ -20,6 +20,7 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
+                <th class="text-center" width="5%">#</th>
                 <th class="text-center">Kode</th>
                 <th class="text-center">Nama</th>
                 <th class="text-center">Telepon</th>
@@ -30,6 +31,7 @@
             <tbody>
               @foreach ($distributor as $distributor)
                 <tr>
+                  <td class="text-center">{{ $loop->iteration }}</td>
                   <td>{{ $distributor->code }}</td>
                   <td>{{ $distributor->name }}</td>
                   <td>{{ $distributor->phone }}</td>

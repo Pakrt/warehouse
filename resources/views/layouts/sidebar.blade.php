@@ -5,7 +5,7 @@
           <img src="{{asset('template')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="javascript:void(0)" class="d-block">Alexander Pierce</a>
         </div>
       </div>
 
@@ -21,7 +21,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Master
@@ -30,37 +30,37 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Crew</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Role</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('item.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Barang</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('category.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori Barang</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('unit.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Satuan Barang</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rak Penyimpanan</p>
                 </a>
@@ -81,7 +81,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-link"></i>
               <p>
                 Transaksi
@@ -90,7 +90,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Barang Masuk</p>
                 </a>
@@ -100,7 +100,7 @@
 
           <li class="nav-header">MULTI LEVEL EXAMPLE</li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                 Level 1
@@ -109,13 +109,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Level 2</p>
                 </a>
               </li>
               <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
                     Level 2
@@ -124,19 +124,19 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="javascript:void(0)" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Level 3</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="javascript:void(0)" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Level 3</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="javascript:void(0)" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Level 3</p>
                     </a>
@@ -144,7 +144,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Level 2</p>
                 </a>

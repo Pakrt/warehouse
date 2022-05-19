@@ -1,9 +1,9 @@
 @extends('layouts.template')
-@section('tittlePage', 'Supplier')
-@section('tittleContent', 'Supplier')
+@section('tittlePage', 'Barang')
+@section('tittleContent', 'Barang')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Master Supplier</li>
+    <li class="breadcrumb-item active">Master Barang</li>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -11,7 +11,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <button type="button" class="btn btn-sm bg-gradient-info" data-toggle="modal" data-target="#modal-lg">
+          <button type="button" class="btn btn-sm bg-gradient-info" data-toggle="modal" data-target="#modal-xl">
             <i class="fas fa-plus-circle"></i> Tambah Data
           </button>
         </div>
@@ -23,24 +23,28 @@
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Kode</th>
                 <th class="text-center">Nama</th>
-                <th class="text-center">Telepon</th>
-                <th class="text-center">Alamat</th>
+                <th class="text-center">Kategori</th>
+                <th class="text-center">Satuan</th>
+                <th class="text-center">Kapasitas</th>
+                <th class="text-center">Keterangan</th>
                 <th class="text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($supplier as $supplier)
+              @foreach ($item as $item)
                 <tr>
                   <td class="text-center">{{ $loop->iteration }}</td>
-                  <td>{{ $supplier->code }}</td>
-                  <td>{{ $supplier->name }}</td>
-                  <td>{{ $supplier->phone }}</td>
-                  <td>{{ $supplier->address }}</td>
+                  <td>{{ $item->code }}</td>
+                  <td>{{ $item->name }}</td>
+                  <td>{{ $item->category_id }}</td>
+                  <td>{{ $item->unit_id }}</td>
+                  <td>{{ $item->capacity }}</td>
+                  <td>{{ $item->description }}</td>
                   <td class="text-center">
-                    <form action="{{ route('supplier.destroy', $supplier->id) }}" method="POST">
+                    <form action="{{ route('item.destroy', $item->id) }}" method="POST">
                       @method('delete')
                       @csrf
-                      <a href="{{ route('supplier.edit', $supplier->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
+                      <a href="{{ route('item.edit', $item->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
                       <button type="submit" class="btn btn-outline-danger btn-sm" 
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
@@ -61,4 +65,4 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-@include('master.supplier.create')
+@include('master.item.create')

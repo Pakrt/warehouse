@@ -1,9 +1,9 @@
 @extends('layouts.template')
-@section('tittlePage', 'Supplier')
-@section('tittleContent', 'Supplier')
+@section('tittlePage', 'Satuan')
+@section('tittleContent', 'Satuan')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Master Supplier</li>
+    <li class="breadcrumb-item active">Master Satuan</li>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -23,24 +23,20 @@
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Kode</th>
                 <th class="text-center">Nama</th>
-                <th class="text-center">Telepon</th>
-                <th class="text-center">Alamat</th>
-                <th class="text-center">Aksi</th>
+                <th class="text-center" width="20%">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($supplier as $supplier)
+              @foreach ($unit as $unit)
                 <tr>
                   <td class="text-center">{{ $loop->iteration }}</td>
-                  <td>{{ $supplier->code }}</td>
-                  <td>{{ $supplier->name }}</td>
-                  <td>{{ $supplier->phone }}</td>
-                  <td>{{ $supplier->address }}</td>
+                  <td>{{ $unit->code }}</td>
+                  <td>{{ $unit->name }}</td>
                   <td class="text-center">
-                    <form action="{{ route('supplier.destroy', $supplier->id) }}" method="POST">
+                    <form action="{{ route('unit.destroy', $unit->id) }}" method="POST">
                       @method('delete')
                       @csrf
-                      <a href="{{ route('supplier.edit', $supplier->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
+                      <a href="{{ route('unit.edit', $unit->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
                       <button type="submit" class="btn btn-outline-danger btn-sm" 
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
@@ -61,4 +57,4 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-@include('master.supplier.create')
+@include('master.unit.create')
