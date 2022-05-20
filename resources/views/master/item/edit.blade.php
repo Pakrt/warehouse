@@ -71,7 +71,6 @@
                         <input class="form-control" type="text" id="description" name="description" value="{{ $item->description }}">
                     </div>
                     <div class="form-group" hidden>
-                        <input type="text" name="created_by" value="{{ Auth::user()->id }}">
                         <input type="text" name="updated_by" value="{{ Auth::user()->id }}">
                     </div>
                 </div>

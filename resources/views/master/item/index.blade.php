@@ -23,7 +23,7 @@
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Kode</th>
                 <th class="text-center">Nama</th>
-                <th class="text-center" width="5%">Kategori</th>
+                <th class="text-center" width="10%">Kategori</th>
                 <th class="text-center" width="5%">Satuan</th>
                 <th class="text-center" width="5%">Kapasitas</th>
                 <th class="text-center">Keterangan</th>

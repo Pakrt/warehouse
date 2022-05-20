@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('area');
             $table->string('row');
             $table->string('name')->unique();
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
