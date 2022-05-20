@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('racks', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('area');
-            $table->string('row');
-            $table->string('name')->unique();
-            $table->string('qty')->nullable();
-            $table->string('status')->nullable();
+            $table->foreignId('item_id')->references('id')->on('items');
+            $table->foreignId('rack_id')->references('id')->on('racks');
+            $table->string('qty');
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('racks');
+        Schema::dropIfExists('stocks');
     }
 };

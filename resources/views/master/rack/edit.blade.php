@@ -19,21 +19,29 @@
                     <div class="form-group">
                       <label for="area">Area</label>
                       <select name="area" id="area" class="form-control select">
-                          <option @if ($rack->area == "local") selected @endif value="local">Produk Lokal</option>
-                          <option @if ($rack->area == "nonlocal") selected @endif value="nonlocal">Produk Luar</option>
+                          <option @if ($rack->area == "Produk Lokal") selected @endif value="Produk Lokal">Produk Lokal</option>
+                          <option @if ($rack->area == "Produk Luar") selected @endif value="Produk Luar">Produk Luar</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="row">Jumlah Bagian</label>
-                      <input class="form-control @error('row') is-invalid @enderror" 
+                      <label for="row">Jumlah Row</label>
+                      <input class="form-control @error('row') is-invalid @enderror"
                         type="number" id="row" name="row" max="100" value="{{ $rack->row }}" required>
                       @error('row')
                         <label for="row" style="color: red">{{ $message }}</label>
                       @enderror
                     </div>
                     <div class="form-group">
+                        <label for="qty">Jumlah Sisi</label>
+                        <input class="form-control @error('qty') is-invalid @enderror"
+                          type="number" id="qty" name="qty" value="{{ $rack->qty }}" required>
+                        @error('qty')
+                          <label for="qty" style="color: red">{{ $message }}</label>
+                        @enderror
+                      </div>
+                    <div class="form-group">
                       <label for="name">Nama</label>
-                      <input class="form-control @error('name') is-invalid @enderror" 
+                      <input class="form-control @error('name') is-invalid @enderror"
                         type="text" id="name" name="name" value="{{ $rack->name }}" required>
                       @error('name')
                         <label for="name" style="color: red">{{ $message }}</label>

@@ -16,21 +16,29 @@
                 <label for="area">Area</label>
                 <select name="area" id="area" class="form-control select">
                     <option>- Select -</option>
-                    <option value="local">Produk Lokal</option>
-                    <option value="nonlocal">Produk Luar</option>
+                    <option value="Produk Lokal">Produk Lokal</option>
+                    <option value="Produk Luar">Produk Luar</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="row">Jumlah Bagian</label>
-                <input class="form-control @error('row') is-invalid @enderror" 
+                <label for="row">Jumlah Row</label>
+                <input class="form-control @error('row') is-invalid @enderror"
                   type="number" id="row" name="row" max="100" required>
                 @error('row')
                   <label for="row" style="color: red">{{ $message }}</label>
                 @enderror
               </div>
               <div class="form-group">
+                <label for="row">Jumlah Sisi</label>
+                <input class="form-control @error('qty') is-invalid @enderror"
+                  type="number" id="qty" name="qty" required>
+                @error('qty')
+                  <label for="row" style="color: red">{{ $message }}</label>
+                @enderror
+              </div>
+              <div class="form-group">
                 <label for="name">Nama</label>
-                <input class="form-control @error('name') is-invalid @enderror" 
+                <input class="form-control @error('name') is-invalid @enderror"
                   type="text" id="name" name="name" required>
                 @error('name')
                   <label for="name" style="color: red">{{ $message }}</label>

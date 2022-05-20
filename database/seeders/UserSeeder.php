@@ -20,11 +20,17 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'email' => 'admin@admin',
+                'username' => 'admin',
+                'role_id' => '1',
+                'avatar' => '',
                 'password' => Hash::make('admin123'),
             ],
             [
                 'name' => 'Guest',
                 'email' => 'guest@guest',
+                'username' => 'guest',
+                'role_id' => '2',
+                'avatar' => '',
                 'password' => Hash::make('guest123'),
             ]
         ]);

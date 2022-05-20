@@ -69,12 +69,13 @@ class RackController extends Controller
         $rack = Rack::find($id);
         $rack->update([
             'name' => $request->name,
-            'area' => $request->area,   
-            'row' => $request->row,   
+            'area' => $request->area,
+            'row' => $request->row,
+            'qty' => $request->qty,
             'status' => $status,
             'updated_by' => $request->updated_by,
         ]);
-        
+
         return Redirect::route('rack.index')
         ->with([
             'status' => 'success',

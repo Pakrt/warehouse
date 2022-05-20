@@ -17,7 +17,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="example1" class="table table-bordered table-striped" width="100%">
             <thead>
               <tr>
                 <th class="text-center" width="5%">#</th>
@@ -37,7 +37,7 @@
                       @method('delete')
                       @csrf
                       <a href="{{ route('unit.edit', $unit->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
-                      <button type="submit" class="btn btn-outline-danger btn-sm" 
+                      <button type="submit" class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
                     </form>

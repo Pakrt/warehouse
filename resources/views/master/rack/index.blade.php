@@ -17,14 +17,15 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="example1" class="table table-bordered table-striped" width="100%">
             <thead>
               <tr>
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Nama</th>
                 <th class="text-center">Area</th>
                 <th class="text-center" width="15%">Jumlah Row</th>
-                <th class="text-center" width="15%">Status</th>
+                <th class="text-center" width="15%">Jumlah Sisi</th>
+                <th class="text-center" width="10%">Status</th>
                 <th class="text-center" width="10%">Aksi</th>
               </tr>
             </thead>
@@ -35,6 +36,7 @@
                   <td>{{ $rack->name }}</td>
                   <td>{{ $rack->area }}</td>
                   <td class="text-right">{{ $rack->row }}</td>
+                  <td class="text-right">{{ $rack->qty }}</td>
                   <td class="text-center">
                     @if ($rack->status == "on")
                     <span class="badge bg-success">Aktif</span>

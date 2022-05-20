@@ -7,22 +7,49 @@
 @endsection
 @section('content')
 <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Title</h3>
-      <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-          <i class="fas fa-minus"></i></button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fas fa-times"></i></button>
-      </div>
-      <div class="card-body">
-        Start creating your amazing application!
-      </div>
-      <!-- /.card-body -->
-      <div class="card-footer">
-        Footer
-      </div>
-      <!-- /.card-footer-->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fab fa-bitbucket"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Barang</span>
+                      <span class="info-box-number">{{ $sumItem }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><i class="fab fa-bitbucket"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Rak Penyimpanan</span>
+                      <span class="info-box-number">{{ $sumRack }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><i class="fab fa-bitbucket"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Stock Barang</span>
+                      <span class="info-box-number">1000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="info-box">
+                @foreach ($rack as $rack)
+                <span class="info-box-icon bg-success"><i class="fab fa-bitbucket"></i></span>
+                @endforeach
+            </div>
+        </div>
     </div>
 </div>
 <!-- /.card -->

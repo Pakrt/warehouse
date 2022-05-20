@@ -17,15 +17,16 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="example1" class="table table-bordered table-striped" width="100%">
             <thead>
               <tr>
                 <th class="text-center" width="5%">#</th>
-                <th class="text-center">Kode</th>
+                <th class="text-center" width="10%">Kode</th>
                 <th class="text-center">Nama</th>
                 <th class="text-center" width="10%">Kategori</th>
                 <th class="text-center" width="5%">Satuan</th>
-                <th class="text-center" width="5%">Kapasitas</th>
+                <th class="text-center" width="6%">Berat (g)</th>
+                <th class="text-center" width="10%">Kapasitas Rak</th>
                 <th class="text-center">Keterangan</th>
                 <th class="text-center">Aksi</th>
               </tr>
@@ -38,7 +39,8 @@
                   <td>{{ $item->name }}</td>
                   <td>{{ $item->category->code }}</td>
                   <td>{{ $item->unit->code }}</td>
-                  <td class="text-right">{{ $item->capacity }}</td>
+                  <td class="text-right">{{ $item->weight }}</td>
+                  <td class="text-right">{{ $item->rack_capacity }}</td>
                   <td>{{ $item->description }}</td>
                   <td class="text-center">
                     <form action="{{ route('item.destroy', $item->id) }}" method="POST">

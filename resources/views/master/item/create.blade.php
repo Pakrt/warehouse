@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="name">Kategori</label>
                             <select class="form-control select" name="category_id" required>
@@ -46,7 +46,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="unit">Satuan</label>
                             <select class="form-control select" name="unit_id" required>
@@ -57,13 +57,25 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-4">
+                </div>
+                <div class="row">
+                    <div class="col-6">
                         <div class="form-group">
-                            <label for="capacity">Kapasitas</label>
-                            <input class="form-control @error('capacity') is-invalid @enderror"
-                              type="number" id="capacity" name="capacity" min="0" required>
-                            @error('capacity')
-                              <label for="capacity" style="color: red">{{ $message }}</label>
+                            <label for="rack_capacity">Kapasitas Rak</label>
+                            <input class="form-control @error('rack_capacity') is-invalid @enderror"
+                              type="number" id="rack_capacity" name="rack_capacity" min="0" required>
+                            @error('rack_capacity')
+                              <label for="rack_capacity" style="color: red">{{ $message }}</label>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="weight">Berat (g)</label>
+                            <input class="form-control text-right @error('weight') is-invalid @enderror"
+                              type="number" id="weight" name="weight" min="0" required>
+                            @error('weight')
+                              <label for="weight" style="color: red">{{ $message }}</label>
                             @enderror
                         </div>
                     </div>

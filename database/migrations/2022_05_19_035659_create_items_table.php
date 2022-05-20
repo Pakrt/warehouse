@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->foreignId('unit_id')->references('id')->on('units');
-            $table->string('capacity');
+            $table->string('rack_capacity');
+            $table->string('weight')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
