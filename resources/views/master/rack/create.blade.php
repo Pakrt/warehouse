@@ -21,7 +21,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="row">Jumlah Row</label>
+                <label for="row">Jumlah Baris</label>
                 <input class="form-control @error('row') is-invalid @enderror"
                   type="number" id="row" name="row" max="100" required>
                 @error('row')
@@ -29,7 +29,7 @@
                 @enderror
               </div>
               <div class="form-group">
-                <label for="row">Jumlah Sisi</label>
+                <label for="row">Jumlah Rak</label>
                 <input class="form-control @error('qty') is-invalid @enderror"
                   type="number" id="qty" name="qty" required>
                 @error('qty')

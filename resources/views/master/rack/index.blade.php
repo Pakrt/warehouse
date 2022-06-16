@@ -23,8 +23,8 @@
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Nama</th>
                 <th class="text-center">Area</th>
-                <th class="text-center" width="15%">Jumlah Row</th>
-                <th class="text-center" width="15%">Jumlah Sisi</th>
+                <th class="text-center" width="15%">Jumlah Baris</th>
+                <th class="text-center" width="15%">Jumlah Rak</th>
                 <th class="text-center" width="10%">Status</th>
                 <th class="text-center" width="10%">Aksi</th>
               </tr>

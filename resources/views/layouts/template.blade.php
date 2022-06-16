@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="{{ asset('template') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="{{ asset('template') }}/plugins/toastr/toastr.min.css">
-  
+
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -48,12 +48,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-0">
               <h1>@yield('tittleContent')</h1>
             </div>
             <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
+              <ol class="breadcrumb float-sm-left">
                   @yield('breadcrumb')
               </ol>
             </div>
@@ -65,7 +65,7 @@
     <section class="content">
       <!-- Default box -->
       @yield('content')
-      
+
     </section>
     <!-- /.content -->
   </div>
@@ -92,7 +92,7 @@
 <!-- bs-custom-file-input -->
 <script src="{{ asset('template') }}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
-
+@include('sweetalert::alert')
 @include('components.data-table')
 @include('components.modal')
 @include('components.advance-form')
@@ -101,7 +101,7 @@
   $(document).ready(function () {
     bsCustomFileInput.init();
   });
-</script>  
+</script>
 <script>
   /** add active class and stay opened when selected */
   var url = window.location;
@@ -116,5 +116,6 @@
       return this.href == url;
   }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
 </script>
+@yield('script')
 </body>
 </html>

@@ -20,7 +20,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="javascript:void(0)" class="nav-link">
+                <a href="{{ route('user.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Crew</p>
                 </a>
@@ -70,7 +70,7 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview">
+          <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-link"></i>
               <p>
@@ -80,9 +80,32 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{ route('stockIn.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>
+                    Barang Masuk
+                    {{-- <i class="fas fa-angle-left right"></i> --}}
+                  </p>
+                </a>
+                {{-- <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{{ route('stockIn.create') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Transaksi Otomatis</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="javascript:void(0)" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Transaksi Manual</p>
+                      </a>
+                    </li>
+                </ul> --}}
+              </li>
+              <li class="nav-item">
                 <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Barang Masuk</p>
+                  <p>Barang Keluar</p>
                 </a>
               </li>
             </ul>

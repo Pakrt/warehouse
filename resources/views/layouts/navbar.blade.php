@@ -5,7 +5,9 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
+        <a href="{{ route('dashboard') }}" class="nav-link">
+            <i class="fas fa-home"></i><b> Home</b>
+        </a>
       </li>
     </ul>
 
@@ -67,7 +69,7 @@
           <!-- Menu Footer-->
           <li class="user-footer">
             <a href="#" class="btn btn-info btn-rounded btn-sm">Profile</a>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
+            <a href="{{ route('logout') }}" onclick="event.preventDefault();
               document.getElementById('logout-form').submit();"
               class="btn btn-warning btn-rounded btn-sm float-right">{{ __('Logout') }}
             </a>

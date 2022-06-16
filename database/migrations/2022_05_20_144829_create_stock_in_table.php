@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('invoice');
             $table->foreignId('supplier_id')->references('id')->on('suppliers');
-            $table->date('date');
+            $table->date('date')->nullable();
+            $table->string('clock')->nullable();
             $table->string('description');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');

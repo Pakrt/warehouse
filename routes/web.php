@@ -29,5 +29,8 @@ require __DIR__.'/master/category.php';
 require __DIR__.'/master/supplier.php';
 require __DIR__.'/master/distributor.php';
 require __DIR__.'/master/unit.php';
+require __DIR__.'/master/user.php';
 require __DIR__.'/master/item.php';
 require __DIR__.'/master/rack.php';
+
+require __DIR__.'/stock/stockIn.php';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Rack;
+use App\Models\Master\RackDt;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -32,8 +33,16 @@ class RackController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|unique:racks',
-            'row' => 'required|integer|max:100',
         ]);
+        $id = Rack::max('id')+1;
+        $row = [];
+        for ($i=0; $i < $request->qty; $i++) {
+            RackDt::create([
+                'rack_id' => $id,
+                'number' => $i + 1,
+                'created_by' => $request->created_by,
+            ]);
+        }
 
         $rack = new Rack;
         $rack->fill($request->all());
