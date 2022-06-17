@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('distributor_id')->references('id')->on('distributors');
             $table->date('date')->nullable();
             $table->string('clock')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users');

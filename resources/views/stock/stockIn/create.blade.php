@@ -23,8 +23,8 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="invoice">Invoice</label>
-                                <input class="form-control @error('invoice') is-invalid @enderror"
-                                type="text" id="invoice" value="" name="invoice" required>
+                                <input class="form-control invoice validation @error('invoice') is-invalid @enderror"
+                                type="text" id="invoice" name="invoice" required>
                                 @error('invoice')
                                 <label for="invoice" style="color: red">{{ $message }}</label>
                                 @enderror
@@ -164,16 +164,50 @@
     });
 
     function save() {
-        $.ajax({
-            url: "{{ route('stockIn.store') }}",
-            data: $(".form-data").serialize(),
-            type: 'POST',
-            processData: false,
-            success: function(data) {
-                // window.open("{{ route('stockIn.index') }}");
-                location.reload("{{ route('stockIn.index') }}");
+        Swal.fire({
+            title: 'Apakah Anda Yakin ?',
+            text: "Anda akan menyimpan data Anda !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Simpan Data'
+            }).then((willSave) => {
+            if (willSave) {
+                var validation = 0;
+                $('.validation').each(function () { 
+                    if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+                        validation++;
+                        toastr.options = {
+                            "progressBar" : true,
+                            "positionClass" : "toast-bottom-right"
+                        }
+                        toastr.error("Data Harus Diisi !", "Warning");
+                    } else {
+                        validation-1;
+                    }
+                });
+                if (validation != 0) {
+                    return false;
+                }
+                $.ajax({
+                    url: "{{ route('stockIn.store') }}",
+                    data: $(".form-data").serialize(),
+                    type: 'POST',
+                    processData: false,
+                    success: function(data) {
+                        Swal.fire(
+                        'Success!',
+                        'Data berhasil disimpan',
+                        'success'
+                        )
+                        location.reload();
+                        // window.open("{{ route('stockIn.index') }}");
+                    }
+                });
             }
-        });
+        })
+        
     }
 </script>
 @endsection

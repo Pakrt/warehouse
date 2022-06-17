@@ -70,8 +70,7 @@ class StockInController extends Controller
         // $mod = 1000 % 55
         // $mod = 10
 
-        return Redirect::route('stockIn.index')
-        ->with([
+        return Response::json([
             'status' => 'success',
             'tittle' => 'Success',
             'messages' => 'Membuat data barang masuk'

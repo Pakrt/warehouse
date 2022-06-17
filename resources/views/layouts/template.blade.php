@@ -91,8 +91,9 @@
 <script src="{{ asset('template') }}/dist/js/demo.js"></script>
 <!-- bs-custom-file-input -->
 <script src="{{ asset('template') }}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('vendor') }}/sweetalert//sweetalert.all.js"></script>
 
-@include('sweetalert::alert')
 @include('components.data-table')
 @include('components.modal')
 @include('components.advance-form')

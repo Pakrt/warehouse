@@ -19,12 +19,12 @@ class CategorySeeder extends Seeder
             [
                 'code' => 'FG',
                 'name' => 'FINISH GOODS',
-                'cerated_by' => '1'
+                'created_by' => '1'
             ],
             [
                 'code' => 'RM',
                 'name' => 'RAW MATERIAL',
-                'cerated_by' => '1'
+                'created_by' => '1'
             ],
         ]);
     }
