@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Master\Item;
 use App\Models\Master\Rack;
+use App\Models\Master\RackDt;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
@@ -18,11 +20,15 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $user = User::get();
         $item = Item::get();
+        $rack = Rack::with('rackDt')->where('status', 'on')->get();
+        $rackDt = RackDt::where('is_load', '>', 0)->get();
         $sumItem = count($item);
-        $rack = Rack::where('status', 'on')->get();
         $sumRack = count($rack);
+        $sumUser = count($user);
+        // return $rack;
 
-        return view('dashboard', compact('sumItem', 'rack', 'sumRack'));
+        return view('dashboard', compact('rack', 'sumItem', 'sumRack', 'sumUser'));
     }
 }
