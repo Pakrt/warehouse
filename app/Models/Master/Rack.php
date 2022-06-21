@@ -19,4 +19,9 @@ class Rack extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function rackDt()
+    {
+        return $this->hasMany(RackDt::class);
+    }
 }

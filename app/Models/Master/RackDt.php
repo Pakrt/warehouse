@@ -12,9 +12,16 @@ class RackDt extends Model
     protected $fillable = [
         'rack_id',
         'number',
+        'is_load',
         'created_at',
         'updated_at',
         'created_by',
         'updated_by',
     ];
+
+    public function racks()
+    {
+        return $this->belongsTo(Rack::class,'rack_id','id');
+    }
+
 }

@@ -18,7 +18,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="example1" class="table table-striped" width="100%">
+          <table id="example1" class="table table-bordered table-striped" width="100%">
             <thead>
               <tr>
                 <th class="text-center" width="5%">#</th>
@@ -30,8 +30,8 @@
                 <th class="text-center">Aksi</th>
               </tr>
             </thead>
-            @foreach ($stockIn as $key => $dt )
             <tbody>
+              @foreach ($stockIn as $key => $dt )
                 <tr>
                   <td class="text-center">{{ $loop->iteration }}</td>
                   <td>{{ $dt->invoice }}</td>
@@ -58,8 +58,8 @@
                     </form>
                   </td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
           </table>
         </div>
         <!-- /.card-body -->

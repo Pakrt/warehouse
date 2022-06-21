@@ -19,7 +19,7 @@ class RackController extends Controller
 
     public function index()
     {
-        $rack = Rack::orderby('name', 'ASC')->get();
+        $rack = Rack::with('rackDt')->orderby('name', 'ASC')->get();
 
         return view('master.rack.index', compact('rack'));
     }
@@ -40,6 +40,7 @@ class RackController extends Controller
             RackDt::create([
                 'rack_id' => $id,
                 'number' => $i + 1,
+                'is_load' => 0,
                 'created_by' => $request->created_by,
             ]);
         }
