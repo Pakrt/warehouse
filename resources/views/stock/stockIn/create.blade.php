@@ -24,20 +24,20 @@
                             <div class="form-group col-md-6">
                                 <label for="invoice">Invoice</label>
                                 <input class="form-control invoice validation @error('invoice') is-invalid @enderror"
-                                type="text" id="invoice" name="invoice" required>
+                                  data-name="Invoice" type="text" id="invoice" name="invoice" required>
                                 @error('invoice')
                                 <label for="invoice" style="color: red">{{ $message }}</label>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="date">Tanggal</label>
-                                <input class="form-control" type="date" id="date" name="date" required>
+                                <input class="form-control date validation" data-name="Tanggal" type="date" id="date" name="date" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="supplier">Asal Produk</label>
-                            <select class="form-control select" name="origin" required>
+                            <select class="form-control select validation" data-name="Asal Produk" name="origin" required>
                                 <option value="-">- Select -</option>
                                 <option value="Produk Lokal">Produk Lokal</option>
                                 <option value="Produk Luar">Produk Luar</option>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="supplier">Supplier</label>
-                                <select class="form-control select" name="supplier_id" required>
+                                <select class="form-control select validation" data-name="Supplier" name="supplier_id" required>
                                     <option value="-">- Select -</option>
                                     @foreach ($suppliers as $suppliers)
                                     <option value="{{ $suppliers->id }}">{{ $suppliers->name }}</option>
@@ -78,6 +78,7 @@
                             <th class="text-center" width="5%">#</th>
                             <th class="text-center">ITEM</th>
                             <th class="text-center" width="20%">QTY</th>
+                            <th class="text-center" width="10%">RACK</th>
                             <th class="text-center" width="20%">EX DATE</th>
                             <th class="text-center" width="10%">AKSI</th>
                         </tr>

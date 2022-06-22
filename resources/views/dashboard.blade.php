@@ -85,19 +85,23 @@
                         </p>
 
                         @foreach ($rack as $rack => $racks)
-                        @foreach ($racks->rackDt as $rackDt)
-
                         @php
-                            $load[] = $rackDt->is_load > 0;
-                            $sumLoad = count($load);
+                            $sumLoad = 0;
+                            $sumWidth = 0;
                         @endphp
-                        @endforeach
-
                         <div class="progress-group">
                             Rak {{ $racks->name }} - {{ $racks->area }}
+                            @foreach ($rackDt as $as => $sd)
+                            @if ($sd->rack_id == $racks->id)
+                                @php
+                                    $sumLoad += $sd->is_load;
+                                    $sumWidth = ($sumLoad / $racks->qty)*100;
+                                @endphp
+                            @endif
+                            @endforeach
                             <span class="float-right"><b>{{ $sumLoad }}</b>/{{ $racks->qty }}</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-random" style="width: 80%"></div>
+                              <div class="progress-bar bg-random" style="width: {{ $sumWidth }}%"></div>
                             </div>
                         </div>
                         <!-- /.progress-group -->

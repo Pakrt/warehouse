@@ -16,7 +16,6 @@ function addItem() {
             "</td>"+
             "<td style='display:none'>"+
                 "<input type='text' class='form-control text-right itemsWeight itemsWeight_"+(index+1)+"' readonly name='itemsWeight[]' data-index='"+(index+1)+"'>"+
-                "<input type='text' class='form-control text-right itemsCapacity itemsCapacity_"+(index+1)+"' readonly name='itemsCapacity[]' data-index='"+(index+1)+"'>"+
             "</td>"+
             "<td>"+
                 "<div class='input-group'>"+
@@ -28,6 +27,10 @@ function addItem() {
                 "</div>"+
             "</td>"+
             "<td>"+
+                "<input style='display:none' type='text' class='form-control text-right itemsCapacity itemsCapacity_"+(index+1)+"' readonly name='itemsCapacity[]' data-index='"+(index+1)+"'>"+
+                "<input type='text' class='form-control text-right itemsRack itemsRack_"+(index+1)+"' readonly name='itemsRack[]' data-index='"+(index+1)+"'>"+
+            "</td>"+
+            "<td>"+
                 "<input type='date' class='form-control itemsExp ItemsExp_"+(index+1)+"' name='itemsExp[]' data-index='"+(index+1)+"'>"+
             "</td>"+
             "<td class='text-center'>"+
@@ -37,26 +40,70 @@ function addItem() {
             "</td>"+
         "</tr>"
     );
+    $('.select2').select2();
 }
 
+$(document.body).on("keyup",".itemsQty", function () {
+    var index = $(this).data('index');
+    if (isNaN(parseInt($('.itemsCapacity_'+index).val()))) {
+        var itemCap = 0; 
+    } else {
+        var itemCap = $('.itemsCapacity_'+index).val().replace(/,/g, ''),asANumber = +itemCap;
+    }
+    if (isNaN(parseInt(this.value))) {
+        var itemQty = 0;
+    } else {
+        var itemQty = this.value.replace(/,/g, ''),asANumber = +itemQty;
+    }
+    if (itemQty%itemCap == 0) {
+        var itemRack = itemQty/itemCap;
+    } else {
+        var itemRack = itemQty/itemCap +1;
+    }
+    // var itemRack = itemQty/itemCap;
+    $('.itemsRack_'+index).val(parseInt(itemRack).toLocaleString('en-US'));
+});
+
+// Mengganti Item
 $(document.body).on("change", ".itemsId", function () {
     var index = $(this).find(':selected').data('index');
 
     if ($(this).val() == '-') {
         $('.itemsWeight_' + index).val(0);
         $('.itemsUnit_' + index).val(' ');
+        $('.itemsQty_' + index).val(' ');
         $('.itemsCapacity_' + index).val(0);
+        $('.itemsRack_' + index).val(0);
     } else {
+        if (isNaN(parseInt($(this).find(':selected').data('capacity')))) {
+            var itemCap = 0;
+        } else {
+            var itemCap = $(this).find(':selected').data('capacity');
+        }
+        if (isNaN(parseInt($('.itemsQty_' + index).val()))) {
+            var itemQty = 0;
+        } else {
+            var itemQty = $('.itemsQty_' + index).val().replace(/,/g, ''), asANumber = +itemQty;
+        }
+        if (itemQty%itemCap == 0) {
+            var itemRack = itemQty/itemCap;
+        } else {
+            var itemRack = itemQty/itemCap +1;
+        }
         $('.itemsWeight_' + index).val($(this).find(':selected').data('weight'));
         $('.itemsUnit_' + index).val($(this).find(':selected').data('unit'));
-        $('.itemsCapacity_' + index).val($(this).find(':selected').data('capacity'));
+        $('.itemsCapacity_' + index).val(parseInt(itemCap).toLocaleString('en-US'));
+        $('.itemsRack_' + index).val(parseInt(itemRack).toLocaleString('en-US'));
+        // $('.itemsCapacity_' + index).val($(this).find(':selected').data('capacity'));
     }
 });
 
+// Menghapus Baris Item
 $(document.body).on('click', '.removeItem', function () {
     $('.dataRow_'+this.value).remove();
 });
 
+// Save Data
 function save() {
     // Swal.fire({
     //     title: 'Apakah Anda Yakin ?',
@@ -85,7 +132,7 @@ function save() {
     //             return false;
     //         }
             $.ajax({
-                url: "/stock/stockIn",
+                url: "/stock/stockIn-Algen",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,

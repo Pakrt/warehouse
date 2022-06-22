@@ -23,12 +23,12 @@ class DashboardController extends Controller
         $user = User::get();
         $item = Item::get();
         $rack = Rack::with('rackDt')->where('status', 'on')->get();
-        $rackDt = RackDt::where('is_load', '>', 0)->get();
+        $rackDt = RackDt::get();
         $sumItem = count($item);
         $sumRack = count($rack);
         $sumUser = count($user);
-        // return $rack;
+        // return $rackDt;
 
-        return view('dashboard', compact('rack', 'sumItem', 'sumRack', 'sumUser'));
+        return view('dashboard', compact('rack', 'rackDt', 'sumItem', 'sumRack', 'sumUser'));
     }
 }

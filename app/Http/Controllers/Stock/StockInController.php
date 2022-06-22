@@ -37,7 +37,7 @@ class StockInController extends Controller
         return view('stock.stockIn.create', compact('suppliers', 'items'));
     }
 
-    public function store(Request $request)
+    public function Algen(Request $request)
     {
         // return $request->all();
         $id = StockIn::max('id') + 1;
@@ -95,7 +95,10 @@ class StockInController extends Controller
         }
 
         return $this->inPopulasi($cromosom);
-        
+    }
+
+    public function store(Request $request)
+    {
         // StockIn::create([
         //     'invoice' => $request->invoice,
         //     'supplier_id' => $request->supplier_id,

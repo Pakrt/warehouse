@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('tittlePage', 'Distributor')
-@section('tittleContent', 'Distributor')
+@section('tittleContent', '')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ route("distributor.index") }}">Master Distributor</a></li>
