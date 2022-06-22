@@ -98,10 +98,23 @@
                                     $sumWidth = ($sumLoad / $racks->qty)*100;
                                 @endphp
                             @endif
+                            @if ($sumWidth < 40 && $sumWidth > 0)
+                                @php
+                                    $bg = "bg-info";
+                                @endphp
+                            @elseif ($sumWidth > 40 && $sumWidth < 70)
+                                @php
+                                    $bg = "bg-warning";
+                                @endphp
+                            @elseif ($sumWidth > 70)
+                              @php
+                                  $bg = "bg-danger";
+                              @endphp
+                            @endif
                             @endforeach
                             <span class="float-right"><b>{{ $sumLoad }}</b>/{{ $racks->qty }}</span>
                             <div class="progress progress-sm">
-                              <div class="progress-bar bg-random" style="width: {{ $sumWidth }}%"></div>
+                              <div class="progress-bar {{ $bg }}" style="width: {{ $sumWidth }}%"></div>
                             </div>
                         </div>
                         <!-- /.progress-group -->
