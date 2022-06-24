@@ -132,7 +132,7 @@ function save() {
     //             return false;
     //         }
             $.ajax({
-                url: "/stock/stockIn-Algen",
+                url: "/stock/stockIn/algen",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,

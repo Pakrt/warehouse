@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Stock\StockInController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,6 @@ require __DIR__.'/master/user.php';
 require __DIR__.'/master/item.php';
 require __DIR__.'/master/rack.php';
 
+// Route::get('/stock/stockIn/createAuto', [StockInController::class, 'createAuto'])
+//     ->name('stockIn.createAuto');
 require __DIR__.'/stock/stockIn.php';

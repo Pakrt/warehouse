@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'stock'], function () {
-    Route::group(['prefix' => ''], function () {
-        Route::resource('stockIn', StockInController::class);
-
-        Route::post('stockIn-Algen', [StockInController::class, 'Algen'])
-          ->name('stockIn.Algen');
-    });
+    Route::get('stockIn/createAuto', [StockInController::class, 'createAuto'])
+      ->name('stockIn.createAuto');
+    Route::post('stockIn/algen', [StockInController::class, 'algen'])
+      ->name('stockIn.algen');
+    
+    Route::resource('stockIn', StockInController::class);
+          
 });

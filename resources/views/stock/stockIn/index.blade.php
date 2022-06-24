@@ -13,7 +13,10 @@
       <div class="card">
         <div class="card-header">
           <a href="{{ route('stockIn.create') }}" class="btn btn-sm btn-info">
-            <i class="fas fa-plus-circle"></i> Tambah Data
+            <i class="fas fa-plus-circle"></i> Tambah Data Manual
+          </a>&emsp;
+          <a href="{{ route('stockIn.createAuto') }}" class="btn btn-sm btn-info">
+            <i class="fas fa-plus-circle"></i> Tambah Data Auto
           </a>
         </div>
         <!-- /.card-header -->
