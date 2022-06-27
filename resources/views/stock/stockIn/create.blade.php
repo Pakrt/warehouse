@@ -15,7 +15,7 @@
         <div class="card-header">
             <h5><b>Form Barang Masuk</b></h5>
         </div>
-          <form role="form" method="POST" class="form-data">
+          <form role="form" method="POST" class="form-data"  action="{{ route('stockIn.chooseRack') }}">
             @csrf
             <div class="card-body">
                 <div class="row">
@@ -24,14 +24,14 @@
                             <div class="form-group col-md-6">
                                 <label for="invoice">Invoice</label>
                                 <input class="form-control invoice validation @error('invoice') is-invalid @enderror"
-                                  data-name="Invoice" type="text" id="invoice" name="invoice" required>
+                                  data-name="Kode Invoice" type="text" id="invoice" name="invoice" required>
                                 @error('invoice')
                                 <label for="invoice" style="color: red">{{ $message }}</label>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="date">Tanggal</label>
-                                <input class="form-control date validation" data-name="Tanggal" type="date" id="date" name="date" required>
+                                <input class="form-control date validation" data-name="Tanggal" type="date" id="date" name="date" value="<?= date('Y-m-d'); ?>" required>
                             </div>
                         </div>
                         <div class="row">
@@ -58,6 +58,8 @@
                         <div class="form-group">
                             <label for="description">Keterangan</label>
                             <textarea type="text" rows="4" class="form-control" name="description" ></textarea>
+                            <input readonly id="totalRack" onchange="totalRack()" type="hidden" value="0"
+                                class="form-control validation" data-name="Data Item" name="totalRack">
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,8 @@
             </div>
             <div class="modal-footer justify-content-between">
               <a href="{{ route('stockIn.index') }}" class="btn btn-secondary">Kembali</a>
-              <button type="button" class="btn btn-success" onclick="save()" >Simpan Data</button>
+              <button type="button" class="btn btn-success" onclick="chooseRack()">Lanjutkan</button>
+              {{-- <button type="button" class="btn btn-success" onclick="save()" >Simpan Data</button> --}}
             </div>
           </form>
       </div>
@@ -110,5 +113,9 @@
 <!-- /.container-fluid -->
 @endsection
 @section('script')
+<script>
+    var route = "{{ route('stockIn.chooseRack') }}";
+
+</script>
 <script src="{{ asset('assets/stock/stockIn.js') }}"></script>
 @endsection

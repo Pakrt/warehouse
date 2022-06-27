@@ -7,6 +7,7 @@ use App\Models\Master\Item;
 use App\Models\Master\Rack;
 use App\Models\Master\RackDt;
 use App\Models\Master\Supplier;
+use App\Models\Stock\Stock;
 use App\Models\Stock\StockIn;
 use App\Models\Stock\StockInDt;
 use Illuminate\Http\Request;
@@ -35,6 +36,39 @@ class StockInController extends Controller
         $items = Item::all();
 
         return view('stock.stockIn.create', compact('suppliers', 'items'));
+    }
+
+    public function formManual(Request $request)
+    {
+        // return $request->all();
+        $rack = Rack::with('rackDt')->where('area', $request->origin)->get();
+        $data = [];
+        // for ($i=0; $i < count($request->itemsId); $i++) { 
+        //    for ($j=0; $j < $request->itemsRack[$i]; $j++) { 
+        //     $data[] = $request->itemsId[$i];
+        //    }
+        // }
+        // return $data;
+
+        // return view('stock.stockIn.chooseRack');
+    }
+
+    public function chooseRack(Request $request)
+    {
+        // return $request->all();
+        $suppliers = Supplier::all();
+        $items = Item::all();
+        $racks = Rack::with('rackDt')->where('area', $request->origin)->get();
+        $rackDt = RackDt::with('racks')->where('is_load', '0')->get();
+        
+        $data = [];
+        for ($i=0; $i < count($request->itemsId); $i++) { 
+           for ($j=0; $j < $request->itemsRack[$i]; $j++) { 
+            $data[] = $request->itemsId[$i];
+           }
+        }
+
+        return view('stock.stockIn.chooseRack', compact('request', 'suppliers', 'racks', 'rackDt', 'items'));
     }
 
     public function createAuto()
@@ -100,7 +134,6 @@ class StockInController extends Controller
         for ($i=0; $i <count($genRack) ; $i++) { 
             if($i < count($genWeight)){
                 // Inisiasi cromosom dengan gen Rak dan gen Weight
-                // $cromosom[] = [$genRack[$i],$genWeight[$i]];
                 $cromosomRack[] = $genRack[$i];
                 $cromosomWeight[] = $genWeight[$i];
             }
@@ -111,34 +144,62 @@ class StockInController extends Controller
 
     public function store(Request $request)
     {
-        // StockIn::create([
-        //     'invoice' => $request->invoice,
-        //     'supplier_id' => $request->supplier_id,
-        //     'date' => $request->date,
-        //     'description' => $request->description,
-        //     'created_by' => Auth::user()->id,
-        // ]);
+        // return $request->all();
+        $id = StockIn::max('id')+1;
 
-        // for ($i=0; $i < $itemsId; $i++) {
-        //     StockInDt::create([
-        //         'stock_in_id' => $id,
-        //         'item_id' => $request->itemsId[$i],
-        //         'qty' => $request->itemsQty[$i],
-        //         'date' => $request->date,
-        //         'created_by' => Auth::user()->id,
-        //     ]);
-        // }
+        StockIn::create([
+            'id' => $id,
+            'invoice' => $request->invoice,
+            'supplier_id' => $request->supplier_id,
+            'date' => $request->date,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+        ]);
 
-        // return Response::json([
-        //     'status' => 'success',
-        //     'tittle' => 'Success',
-        //     'messages' => 'Membuat data barang masuk'
-        // ]);
+        $itemId = [];
+        $rackId = [];
+        for ($i=0; $i < count($request->itemsQty); $i++) {
+            StockInDt::create([
+                'stock_in_id' => $id,
+                'item_id' =>  $request->get('itemsId'.$i)[0],
+                'qty' => $request->itemsQty[$i],
+                'date' => $request->date,
+                'created_by' => Auth::user()->id,    
+            ]);
+            for ($j=0; $j < count($request->get('rackDt'.$i)); $j++) { 
+                if($j === array_key_last($request->get('rackDt'.$i))){
+                    $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
+                } else {
+                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                }
+                Stock::create([
+                    'item_id' => $request->get('itemsId'.$i)[0],
+                    'rack_dt_id' => $request->get('rackDt'.$i)[$j],
+                    'qty' => $perhitungan[$i][$j],
+                    'description' => $request->description,
+                    'exp' => date('Y-m-d'),
+                    'date' => $request->date,
+                    'clock' => date('h:i:s'),
+                    'item_weight' => $request->itemsWeight[$i],
+                    'created_by' => Auth::user()->id,
+                ]);
+                RackDt::where('id', $request->get('rackDt'.$i)[$j])->update([
+                    'is_load' => 1,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
+        }
+
+        return Response::json([
+            'status' => 'success',
+            'tittle' => 'Success',
+            'messages' => 'Membuat data barang masuk'
+        ]);
     }
 
     public function inPopulasi($cromosomRack,$cromosomWeight)
     {        
-        $individu = 3;
+        $individu = 5;
         // $populationRack = [];
         $populationWeight = [];
 
@@ -158,10 +219,7 @@ class StockInController extends Controller
         }
 
         $array = $cromosomRack;
-
         $numRandoms = count($cromosomRack);
-  
-  
         $count = count($cromosomRack);
   
         if ($count >= $numRandoms) {
@@ -179,18 +237,10 @@ class StockInController extends Controller
             }
         }
   
-    //   var_dump($final);
-        
-    
-
-        // return $populationWeight;
-        // return $final;
         return $this->clash($populationRack,$populationWeight,$checkArrayTerkecil);
     }
     public function clash($populationRack,$populationWeight,$checkArrayTerkecil)
     {
-        // print_r(array_count_values($population));
-        // return $populationRack;
         // $populationRack = [
         //     [
         //       63,
@@ -223,15 +273,12 @@ class StockInController extends Controller
         //       68
         //     ]
         //     ];
-        // return $checkArrayTerkecil;
         
         $arrayRack = [];
-
-        // return $population;
         $countClashRack = [];
         $countClashWeight = [];
-
         $totalRackAtas = 0;
+
         for ($i=0; $i <count($populationRack) ; $i++) { 
             $findUnique = array_unique($populationRack[$i]);
             $duplicateArray = array_diff_assoc($populationRack[$i],$findUnique);
@@ -259,28 +306,21 @@ class StockInController extends Controller
             }
         }
         if($totalRackAtas > 0){
-
         
-        // return $totalRackAtas;
-        // return $arrayRack[0][0]['atas'];
-        // return [$arrayRackAtas,$populationWeight];
-        $keyFind = [];  
-        for ($i=0; $i <count($arrayRack) ; $i++) { 
-            for ($j=0; $j <count($arrayRack[$i]) ; $j++) { 
-                if(isset($arrayRack[$i][$j]['atas'])){
-                    $keyFind[$i][] = [array_search($arrayRack[$i][$j]['atas'], $populationRack[$i]),$arrayRack[$i][$j]['atas']+6,$populationWeight[$i][$j]];
-                    // $keyFind[$i][]['index'] = array_search($arrayRack[$i][$j]['atas'], $populationRack[$i]);
-                    // $keyFind[$i][]['rack'] = $arrayRack[$i][$j]['atas']+6;
-                    // $keyFind[$i][]['weight'] = $populationWeight[$i][$j];
+            $keyFind = [];
+
+            for ($i=0; $i <count($arrayRack) ; $i++) {
+                for ($j=0; $j <count($arrayRack[$i]) ; $j++) { 
+                    if(isset($arrayRack[$i][$j]['atas'])){
+                        $keyFind[$i][] = [array_search($arrayRack[$i][$j]['atas'], $populationRack[$i]),$arrayRack[$i][$j]['atas']+6,$populationWeight[$i][$j]];
+                        // $keyFind[$i][]['index'] = array_search($arrayRack[$i][$j]['atas'], $populationRack[$i]);
+                        // $keyFind[$i][]['rack'] = $arrayRack[$i][$j]['atas']+6;
+                        // $keyFind[$i][]['weight'] = $populationWeight[$i][$j];
+                    }
+                    // $keyFind[] =  array_search($arrayRackAtas[$i][$j], $populationWeight[$i]);
                 }
-                // $keyFind[] =  array_search($arrayRackAtas[$i][$j], $populationWeight[$i]);
             }
-        }
 
-        // return $keyFind;
-        // if($keyFind){
-
-        // }
             $getWeight = [];
             for ($i=0; $i <count($populationWeight) ; $i++) { 
                 for ($j=0; $j <count($populationWeight[$i]) ; $j++) { 
@@ -292,7 +332,6 @@ class StockInController extends Controller
                     }
                 }
             }
-            // return $getWeight;
             
             $data = [];
             for ($i=0; $i <count($getWeight) ; $i++) {
@@ -309,29 +348,12 @@ class StockInController extends Controller
                     $data[$i] = '1';
                 }
             }
-        return [$data,$countClashRack];
+            return [$data,$countClashRack];
 
-        }else{
-        return [$countClashRack,$countClashRack];
+        } else {
+            return [$countClashRack,$countClashRack];
             
         }
-     
-
-        // return [$countClashRack,$countClashWeight];  
-        
-        // return [$population[0],$findUnique,$duplicateArray,$removeSameValue,$unique_keys,$duplicate_keys];
-
-        // for ($i=0; $i <count($population) ; $i++) { 
-        //     for ($j=0; $j <count($population[$i]) ; $j++) { 
-        //         $dt[$i] = $population[$i][$j];
-        //     }
-        //     for ($k=0; $k <count($population[$i]) ; $k++) { 
-        //     //    $dt[$i][$k]['check2'] = $population[$i][$k][0];
-        //     }
-        //     array_unique($dt);
-        // }
-
-        return $dt;
     }
     public function fitness($population)
     {

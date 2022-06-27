@@ -10,7 +10,7 @@ function addItem() {
         "<tr class='dataRow dataRow_"+(dataRow+1)+"'>"+
             "<td class='text-center' data-index='"+(index+1)+"'>" +(index+1)+ "</td>"+
             "<td>"+
-                "<select class='form-control select itemsId' name='itemsId[]'>"+
+                "<select class='form-control select itemsId validation' name='itemsId[]' data-name='Item'>"+
                     "<option value='-' data-index='"+(index+1)+"'>- Select Item -</option>"+dataItems+
                 "</select>"+
             "</td>"+
@@ -28,7 +28,7 @@ function addItem() {
             "</td>"+
             "<td>"+
                 "<input style='display:none' type='text' class='form-control text-right itemsCapacity itemsCapacity_"+(index+1)+"' readonly name='itemsCapacity[]' data-index='"+(index+1)+"'>"+
-                "<input type='text' class='form-control text-right itemsRack itemsRack_"+(index+1)+"' readonly name='itemsRack[]' data-index='"+(index+1)+"'>"+
+                "<input type='text' class='form-control text-right itemsRack itemsRack_"+(index+1)+"' readonly name='itemsRack[]' data-index='"+(index+1)+"' value='0'>"+
             "</td>"+
             "<td>"+
                 "<input type='date' class='form-control itemsExp ItemsExp_"+(index+1)+"' name='itemsExp[]' data-index='"+(index+1)+"'>"+
@@ -43,6 +43,15 @@ function addItem() {
     $('.select2').select2();
 }
 
+function totalRack() {
+    var totalRack = 0;
+    $('.itemsRack').each(function () {
+        totalRack += parseInt(this.value.replace(/,/g, ""));
+    })
+    $('#totalRack').val(parseInt(totalRack).toLocaleString('en-US'));
+}
+
+// Kebutuhan Rak berdasarkan qty item
 $(document.body).on("keyup",".itemsQty", function () {
     var index = $(this).data('index');
     if (isNaN(parseInt($('.itemsCapacity_'+index).val()))) {
@@ -60,8 +69,9 @@ $(document.body).on("keyup",".itemsQty", function () {
     } else {
         var itemRack = itemQty/itemCap +1;
     }
-    // var itemRack = itemQty/itemCap;
     $('.itemsRack_'+index).val(parseInt(itemRack).toLocaleString('en-US'));
+
+    totalRack();
 });
 
 // Mengganti Item
@@ -96,43 +106,111 @@ $(document.body).on("change", ".itemsId", function () {
         $('.itemsRack_' + index).val(parseInt(itemRack).toLocaleString('en-US'));
         // $('.itemsCapacity_' + index).val($(this).find(':selected').data('capacity'));
     }
+
+    totalRack();
 });
 
 // Menghapus Baris Item
 $(document.body).on('click', '.removeItem', function () {
     $('.dataRow_'+this.value).remove();
+
+    totalRack();
 });
+
+function chooseRack() {
+    Swal.fire({
+        title: 'Apakah Anda Yakin ?',
+        text: "Anda akan pergi ke halaman selanjutnya !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Lanjutkan'
+    }).then((next) => {
+        if (next) {
+            var validation = 0;
+            $('.validation').each(function () { 
+                if ($(this).val() == '' || $(this).val() == '-' || $(this).val() == null || $(this).val() == 0) {
+                    validation++;
+                    toastr.options = {
+                        "progressBar" : true,
+                        "positionClass" : "toast-bottom-right"
+                    }
+                    toastr.error($(this).data('name')+" Harus Diisi !", "Warning");
+                } else {
+                    validation-1;
+                }
+            });
+            if (validation != 0) {
+                return false;
+            }
+            $.ajax({
+                url: "/stock/stockIn/formManual",
+                data: $(".form-data").serialize(),
+                type: 'POST',
+                processData: false,
+                success: function(data) {
+                //     Swal.fire(
+                //     'Success!',
+                //     'Data berhasil disimpan',
+                //     'success'
+                //     )
+                    // location.reload();
+                    window.location = route+'?'+$(".form-data").serialize();
+                }
+            });
+        }
+    })
+}
+
+function algen() {
+    $.ajax({
+        url: "/stock/stockIn/algen",
+        data: $(".form-data").serialize(),
+        type: 'POST',
+        processData: false,
+        success: function(data) {
+            Swal.fire(
+            'Success!',
+            'Data berhasil disimpan',
+            'success'
+            )
+            // location.reload();
+            // window.open("{{ route('stockIn.index') }}");
+        }
+    });
+}
 
 // Save Data
 function save() {
-    // Swal.fire({
-    //     title: 'Apakah Anda Yakin ?',
-    //     text: "Anda akan menyimpan data Anda !",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Simpan Data'
-    //     }).then((willSave) => {
-    //     if (willSave) {
-    //         var validation = 0;
-    //         $('.validation').each(function () { 
-    //             if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
-    //                 validation++;
-    //                 toastr.options = {
-    //                     "progressBar" : true,
-    //                     "positionClass" : "toast-bottom-right"
-    //                 }
-    //                 toastr.error("Data Harus Diisi !", "Warning");
-    //             } else {
-    //                 validation-1;
-    //             }
-    //         });
-    //         if (validation != 0) {
-    //             return false;
-    //         }
+    Swal.fire({
+        title: 'Apakah Anda Yakin ?',
+        text: "Anda akan menyimpan data Anda !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Simpan Data'
+        }).then((willSave) => {
+        if (willSave) {
+            var validation = 0;
+            $('.validation').each(function () { 
+                if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+                    validation++;
+                    toastr.options = {
+                        "progressBar" : true,
+                        "positionClass" : "toast-bottom-right"
+                    }
+                    toastr.error("Data Harus Diisi !", "Warning");
+                } else {
+                    validation-1;
+                }
+            });
+            if (validation != 0) {
+                return false;
+            }
             $.ajax({
-                url: "/stock/stockIn/algen",
+                url: "/stock/stockIn",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,
@@ -143,9 +221,9 @@ function save() {
                     'success'
                     )
                     // location.reload();
-                    // window.open("{{ route('stockIn.index') }}");
+                    window.reload("{{ route('stockIn.index') }}");
                 }
             });
-        // }
-    // })
+        }
+    })
 }

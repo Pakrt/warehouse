@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="date">Tanggal</label>
-                                <input class="form-control date validation" data-name="Tanggal" type="date" id="date" name="date" required>
+                                <input class="form-control date validation" data-name="Tanggal" type="date" id="date" name="date" value="<?= date('Y-m-d');?>" required>
                             </div>
                         </div>
                         <div class="row">
@@ -58,6 +58,8 @@
                         <div class="form-group">
                             <label for="description">Keterangan</label>
                             <textarea type="text" rows="4" class="form-control" name="description" ></textarea>
+                            <input readonly id="totalRack" onchange="totalRack()" type="hidden" value="0"
+                                class="form-control validation" data-name="Data Item" name="totalRack">
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <a href="{{ route('stockIn.index') }}" class="btn btn-secondary">Kembali</a>
-              <button type="button" class="btn btn-success" onclick="save()" >Simpan Data</button>
+              <button type="button" class="btn btn-success" onclick="algen()" >Lanjutkan</button>
             </div>
           </form>
       </div>

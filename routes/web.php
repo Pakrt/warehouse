@@ -34,6 +34,5 @@ require __DIR__.'/master/user.php';
 require __DIR__.'/master/item.php';
 require __DIR__.'/master/rack.php';
 
-// Route::get('/stock/stockIn/createAuto', [StockInController::class, 'createAuto'])
-//     ->name('stockIn.createAuto');
 require __DIR__.'/stock/stockIn.php';
+require __DIR__.'/stock/stock.php';
