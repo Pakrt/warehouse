@@ -17,14 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('name');
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->foreignId('unit_id')->references('id')->on('units');
+            $table->integer('category_id');
+            $table->integer('unit_id');
             $table->string('rack_capacity');
-            $table->string('weight')->nullable();
+            $table->double('weight')->nullable();
+            $table->double('total_weight')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

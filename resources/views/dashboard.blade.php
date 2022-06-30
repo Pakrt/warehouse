@@ -11,7 +11,7 @@
 
             <!-- Small boxes (Stat box) -->
             <div class="row">
-              <div class="col-lg-3 col-6">
+              <div class="col-md-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                   <div class="inner">
@@ -26,7 +26,7 @@
                 </div>
               </div>
               <!-- ./col -->
-              <div class="col-lg-3 col-6">
+              <div class="col-md-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
                   <div class="inner">
@@ -41,7 +41,7 @@
                 </div>
               </div>
               <!-- ./col -->
-              <div class="col-lg-3 col-6">
+              <div class="col-md-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
@@ -56,7 +56,7 @@
                 </div>
               </div>
               <!-- ./col -->
-              <div class="col-lg-3 col-6">
+              {{-- <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                   <div class="inner">
@@ -69,7 +69,7 @@
                   </div>
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-              </div>
+              </div> --}}
               <!-- ./col -->
             </div>
             <!-- /.row -->
@@ -80,9 +80,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-md-12">
-                        <p class="text-center">
+                        <h5 class="text-center">
                         <strong>Kapasitas Rak Penyimpanan</strong>
-                        </p>
+                        </h5>
 
                         @foreach ($rack as $rack => $racks)
                         @php
@@ -98,7 +98,7 @@
                                     $sumWidth = ($sumLoad / $racks->qty)*100;
                                 @endphp
                             @endif
-                            @if ($sumWidth < 40 && $sumWidth > 0)
+                            @if ($sumWidth < 40 && $sumWidth >= 0)
                                 @php
                                     $bg = "bg-info";
                                 @endphp

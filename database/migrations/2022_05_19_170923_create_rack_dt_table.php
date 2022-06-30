@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('rack_dt', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rack_id')->refereces('id')->on('racks');
+            $table->integer('rack_id');
             $table->string('number');
             $table->boolean('is_load');
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

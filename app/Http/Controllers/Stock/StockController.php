@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Stock;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Item;
 use App\Models\Master\Rack;
 use App\Models\Master\RackDt;
 use App\Models\Stock\Stock;
@@ -22,7 +23,7 @@ class StockController extends Controller
         $rack2 = Rack::with('rackDt', 'rackDt.stock')->get();
         // $rackDt = RackDt::with('stock')->orderBy('id', 'asc')->get();
         $stock = Stock::with('rackDt')->get();
-        $rackDt = RackDt::with('stock', 'stock.item')
+        $rackDt = RackDt::with('stock')
         ->leftJoin('stocks', 'rack_dt.id', '=', 'stocks.rack_dt_id')
         ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
         // ->leftJoin('units', 'units.id', '=', 'items.unit_id')

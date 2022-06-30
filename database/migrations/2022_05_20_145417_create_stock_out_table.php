@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('stock_out', function (Blueprint $table) {
             $table->id();
             $table->string('invoice');
-            $table->foreignId('distributor_id')->references('id')->on('distributors');
+            $table->integer('distributor_id');
             $table->date('date')->nullable();
             $table->string('clock')->nullable();
+            $table->string('product_origin')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

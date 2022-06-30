@@ -15,6 +15,7 @@ class StockIn extends Model
         'supplier_id',
         'date',
         'description',
+        'product_origin',
         'created_at',
         'updated_at',
         'created_by',

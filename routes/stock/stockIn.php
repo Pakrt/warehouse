@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'stock'], function () {
     Route::get('stockIn/createAuto', [StockInController::class, 'createAuto'])
       ->name('stockIn.createAuto');
+    Route::post('stockIn/store2', [StockInController::class, 'store2'])
+      ->name('stockIn.store2');
+    Route::post('stockIn/generateAlgen', [StockInController::class, 'generateAlgen'])
+      ->name('stockIn.generateAlgen');
     Route::post('stockIn/algen', [StockInController::class, 'algen'])
       ->name('stockIn.algen');
     Route::post('stockIn/formManual', [StockInController::class, 'formManual'])

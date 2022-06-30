@@ -18,6 +18,7 @@ class Item extends Model
         'rack_capacity',
         'description',
         'weight',
+        'item_weight',
         'created_at',
         'updated_at',
         'created_by',

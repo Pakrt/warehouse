@@ -25,12 +25,12 @@
                   <p>Crew</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Role</p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="{{ route('item.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

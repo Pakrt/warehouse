@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('qty')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

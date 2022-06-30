@@ -43,21 +43,14 @@ class StockInController extends Controller
         // return $request->all();
         $rack = Rack::with('rackDt')->where('area', $request->origin)->get();
         $data = [];
-        // for ($i=0; $i < count($request->itemsId); $i++) { 
-        //    for ($j=0; $j < $request->itemsRack[$i]; $j++) { 
-        //     $data[] = $request->itemsId[$i];
-        //    }
-        // }
-        // return $data;
-
-        // return view('stock.stockIn.chooseRack');
     }
 
     public function chooseRack(Request $request)
     {
         // return $request->all();
         $suppliers = Supplier::all();
-        $items = Item::all();
+        $items = Item::get();
+        // return $items;
         $racks = Rack::with('rackDt')->where('area', $request->origin)->get();
         $rackDt = RackDt::with('racks')->where('is_load', '0')->get();
         
@@ -79,20 +72,210 @@ class StockInController extends Controller
         return view('stock.stockIn.createAuto', compact('suppliers', 'items'));
     }
 
-    public function algen(Request $request)
+    public function store(Request $request)
+    {
+        return $request->all();
+        $id = StockIn::max('id')+1;
+
+        StockIn::create([
+            'id' => $id,
+            'invoice' => $request->invoice,
+            'supplier_id' => $request->supplier_id,
+            'date' => $request->date,
+            'clock' => date('h:i:s'),
+            'product_origin' => $request->origin,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        $itemId = [];
+        $rackId = [];
+        for ($i=0; $i < count($request->itemsQty); $i++) {
+            StockInDt::create([
+                'stock_in_id' => $id,
+                'item_id' =>  $request->get('itemsId'.$i)[0],
+                'qty' => $request->itemsQty[$i],
+                'date' => $request->date,
+                'production_date' => date('Y-m-d'),
+                'expired_date' => date('Y-m-d'),
+                'created_by' => Auth::user()->id,    
+            ]);
+            for ($j=0; $j < count($request->get('rackDt'.$i)); $j++) {
+                if($j === array_key_last($request->get('rackDt'.$i))){
+                    if ($request->itemsQty[$i]%$request->itemsCapacity[$i] == 0) {
+                        $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                    } else {
+                        $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
+                    }
+                } else {
+                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                }
+                Stock::create([
+                    'item_id' => $request->get('itemsId'.$i)[0],
+                    'rack_dt_id' => $request->get('rackDt'.$i)[$j],
+                    'qty' => $perhitungan[$i][$j],
+                    'description' => $request->description,
+                    'expired_date' => date('Y-m-d'),
+                    'production_date' => date('Y-m-d'),
+                    'date' => $request->date,
+                    'clock' => date('h:i:s'),
+                    'item_weight' => $request->itemsWeight[$i],
+                    'created_by' => Auth::user()->id,
+                ]);
+                RackDt::where('id', $request->get('rackDt'.$i)[$j])->update([
+                    'is_load' => 1,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
+        }
+
+        return Response::json([
+            'status' => 'success',
+            'tittle' => 'Success',
+            'messages' => 'Membuat data barang masuk'
+        ]);
+    }
+
+    public function generateAlgen(Request $request)
     {
         // return $request->all();
+        // return $this->algen($request);
+
+        $dataAwal =  $this->algen($request);
+        $item = [];
+        $weight = $dataAwal[1];
+        $rack = $dataAwal[0];
+        $items = $dataAwal[2];
+        $qty = $dataAwal[3];
+
+        $itemsAwal = Item::select('id','name')->whereIn('id', $items)->get();
+        $rackAwal = RackDt::select('id','number')->whereIn('id', $rack)->get();
+        $qtyw = [];
+
+        for ($i=0; $i <count($itemsAwal) ; $i++) { 
+            $item[$i]['item'] = Item::select('name','id','total_weight', 'rack_capacity')->where('id', $itemsAwal[$i]->id)->first();
+            $item[$i]['rack'] = [];
+            $item[$i]['rack_number'] = [];
+            for ($j=0; $j < count($items); $j++) { 
+                if($itemsAwal[$i]->id == $items[$j]){
+
+                    array_push($item[$i]['rack'],$rack[$j]);
+                    array_push($item[$i]['rack_number'],
+                        RackDt::leftJoin('racks', 'rack_dt.rack_id', '=', 'racks.id')
+                        ->select('rack_dt.number','racks.name','rack_dt.id')
+                        ->where('rack_dt.id', $rack[$j])
+                        ->first());
+                }
+            }
+            for ($j=0; $j <count($qty) ; $j++) { 
+                $qtyw[$i][$j] = [$qty[$j],$itemsAwal[$i]->id];
+            }
+
+            
+
+        }
+        $t = [];
+
+        for ($i=0; $i <count( $qtyw) ; $i++) { 
+            // $item[$i]['rack'] = [];
+            for ($j=0; $j <count( $qtyw[$i])  ; $j++) { 
+                if($qtyw[$i][$j][1] == $qtyw[$i][$j][0][1]){
+                    $t[] = $qtyw[$i][$j][0];
+                }
+            }
+        }
+        // return $t;
+        // return $qtyw;
+        
+        return Response::json([
+            'status' => 'success',
+            'data'=> $item,
+            't'=> $t,
+        ]);
+        // return [$dataAwal,$item,$itemsAwal];
+    }
+
+    public function store2(Request $request)
+    {
+        // return $request->all();
+        $id = StockIn::max('id')+1;
+
+        StockIn::create([
+            'id' => $id,
+            'invoice' => $request->invoice,
+            'supplier_id' => $request->supplier_id,
+            'date' => $request->date,
+            'clock' => date('h:i:s'),
+            'product_origin' => $request->origin,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        $itemId = [];
+        $rackId = [];
+        for ($i=0; $i < count($request->itemsQty); $i++) {
+            StockInDt::create([
+                'stock_in_id' => $id,
+                'item_id' =>  $request->get('itemsIdStore'.$i)[0],
+                'qty' => $request->itemsQty[$i],
+                'date' => $request->date,
+                'production_date' => date('Y-m-d'),
+                'expired_date' => $request->itemsExp[$i],
+                'created_by' => Auth::user()->id,    
+            ]);
+            for ($j=0; $j < count($request->get('rackDtStore'.$i)); $j++) {
+                if($j === array_key_last($request->get('rackDtStore'.$i))){
+                    if ($request->itemsQty[$i]%$request->itemsCapacity[$i] == 0) {
+                        $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                    } else {
+                        $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
+                    }
+                } else {
+                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                }
+                Stock::create([
+                    'item_id' => $request->get('itemsIdStore'.$i)[0],
+                    'rack_dt_id' => $request->get('rackDtStore'.$i)[$j],
+                    'qty' => $perhitungan[$i][$j],
+                    'description' => $request->description,
+                    'expired_date' => $request->itemsExp[$i],
+                    'production_date' => date('Y-m-d'),
+                    'date' => $request->date,
+                    'clock' => date('h:i:s'),
+                    'item_weight' => $request->get('itemsWeightStore'.$i)[0],
+                    'created_by' => Auth::user()->id,
+                ]);
+                RackDt::where('id', $request->get('rackDtStore'.$i)[$j])->update([
+                    'is_load' => 1,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            }
+        }
+
+        return Response::json([
+            'status' => 'success',
+            'tittle' => 'Success',
+            'messages' => 'Membuat data barang masuk'
+        ]);
+    }
+
+    public function algen(Request $request)
+    {
         $id = StockIn::max('id') + 1;
         $itemsId = count($request->itemsId);
         $weight = [];
         $genWeight = [];
         $genRack = [];
+        $genItemsRaw = [];
+        $genItemsRaw2 = [];
+        $genItems = [];
+        $qty = [];
 
-        Validator::make($request->all(), [
-            'invoice' => ['required', 'unique:stock_in'],
-            'date' => ['required', 'date'],
-            'supplier_id' => ['required', 'integer'],
-        ])->validate();
+        // Validator::make($request->all(), [
+        //     'invoice' => ['required', 'unique:stock_in'],
+        //     'date' => ['required', 'date'],
+        //     'supplier_id' => ['required', 'integer'],
+        // ])->validate();
 
         // Menentukan jumlah rak yang dibutuhkan / Panjang cromosom
         for ($i=0; $i < $itemsId; $i++) { 
@@ -101,6 +284,7 @@ class StockInController extends Controller
                 // Mendapatkan nilai weight pada tiap item yang dimasukkan ke dalam rak
                 for ($j=0; $j <(floor($rack[$i])) ; $j++) { 
                     $weight[$i][$j] = $request->itemsWeight[$i];
+                    $genItemsRaw[$i][$j] = [$request->itemsId[$i],$request->itemsWeight[$i]];
                 }
             } else {
                 $rack[$i] = $request->itemsQty[$i] / $request->itemsCapacity[$i];
@@ -108,17 +292,39 @@ class StockInController extends Controller
                 // Mendapatkan nilai weight pada tiap item yang dimasukkan ke dalam rak
                 for ($j=0; $j <((floor($rack[$i])+1)-1) ; $j++) { 
                     $weight[$i][$j] = $request->itemsWeight[$i];
+                    $genItemsRaw[$i][$j] = [$request->itemsId[$i],$request->itemsWeight[$i]];
                 }
             }
-        }
+            $qty[$i] = [$request->itemsQty[$i],$request->itemsId[$i]];
+
+        }   
 
         // Membuat nilai gen Weight menjadi array 1 dimensi
         for ($i=0; $i <count($weight) ; $i++) { 
             for ($j=0; $j <count($weight[$i]) ; $j++) { 
                 $genWeight[] = $weight[$i][$j];
+                $genItemsRaw2[] = [$genItemsRaw[$i][$j][0],$genItemsRaw[$i][$j][1]];
+
             }
         }
         rsort($genWeight);
+        // sort($qty);
+
+        // return $genItemsRaw2;
+        for ($i=0; $i <count($genItemsRaw2) ; $i++) { 
+            for ($j=0; $j <count($genWeight) ; $j++) { 
+                if($genItemsRaw2[$i][1] == $genWeight[$j]){
+                    $genItems[$j] = $genItemsRaw2[$i][0];
+
+                // }else{
+                    // $genItems[] = $genItemsRaw2[$i][0];
+                }
+            }
+        }
+        // return $qty;
+
+        // rsort($genItems);
+        // return $genItems;
 
         // Mencari rak yang tersedia
         $rackDtRaw = RackDt::with('racks')->get();
@@ -138,63 +344,11 @@ class StockInController extends Controller
                 $cromosomWeight[] = $genWeight[$i];
             }
         }
-
-        return $this->inPopulasi($cromosomRack,$cromosomWeight);
-    }
-
-    public function store(Request $request)
-    {
-        // return $request->all();
-        $id = StockIn::max('id')+1;
-
-        StockIn::create([
-            'id' => $id,
-            'invoice' => $request->invoice,
-            'supplier_id' => $request->supplier_id,
-            'date' => $request->date,
-            'description' => $request->description,
-            'created_by' => Auth::user()->id,
-        ]);
-
-        $itemId = [];
-        $rackId = [];
-        for ($i=0; $i < count($request->itemsQty); $i++) {
-            StockInDt::create([
-                'stock_in_id' => $id,
-                'item_id' =>  $request->get('itemsId'.$i)[0],
-                'qty' => $request->itemsQty[$i],
-                'date' => $request->date,
-                'created_by' => Auth::user()->id,    
-            ]);
-            for ($j=0; $j < count($request->get('rackDt'.$i)); $j++) { 
-                if($j === array_key_last($request->get('rackDt'.$i))){
-                    $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
-                } else {
-                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
-                }
-                Stock::create([
-                    'item_id' => $request->get('itemsId'.$i)[0],
-                    'rack_dt_id' => $request->get('rackDt'.$i)[$j],
-                    'qty' => $perhitungan[$i][$j],
-                    'description' => $request->description,
-                    'exp' => date('Y-m-d'),
-                    'date' => $request->date,
-                    'clock' => date('h:i:s'),
-                    'item_weight' => $request->itemsWeight[$i],
-                    'created_by' => Auth::user()->id,
-                ]);
-                RackDt::where('id', $request->get('rackDt'.$i)[$j])->update([
-                    'is_load' => 1,
-                    'updated_by' => Auth::user()->id,
-                ]);
-            }
+        if($request->generate != null || $request->generate != '' || $request->generate == 'generate'){
+            return [$cromosomRack,$cromosomWeight,$genItems,$qty];
+        }else{
+            return $this->inPopulasi($cromosomRack,$cromosomWeight);
         }
-
-        return Response::json([
-            'status' => 'success',
-            'tittle' => 'Success',
-            'messages' => 'Membuat data barang masuk'
-        ]);
     }
 
     public function inPopulasi($cromosomRack,$cromosomWeight)
@@ -306,9 +460,7 @@ class StockInController extends Controller
             }
         }
         if($totalRackAtas > 0){
-        
             $keyFind = [];
-
             for ($i=0; $i <count($arrayRack) ; $i++) {
                 for ($j=0; $j <count($arrayRack[$i]) ; $j++) { 
                     if(isset($arrayRack[$i][$j]['atas'])){
@@ -327,8 +479,6 @@ class StockInController extends Controller
                     if(isset($keyFind[$i][$j][0])){
                         // $getWeight[$i][] = $populationWeight[$i][$keyFind[$i][$j][0]];
                         $getWeight[$i][] = [$populationWeight[$i][$keyFind[$i][$j][0]],$populationRack[$i][$keyFind[$i][$j][0]]];
-                        
-                        
                     }
                 }
             }
@@ -348,17 +498,25 @@ class StockInController extends Controller
                     $data[$i] = '1';
                 }
             }
-            return [$data,$countClashRack];
+            return $this->fitness($data,$countClashRack);
 
         } else {
-            return [$countClashRack,$countClashRack];
+            return $this->fitness($countClashRack,$countClashRack);
             
         }
     }
-    public function fitness($population)
+
+    public function fitness($countClashWeight,$countClashRack)
     {
+        $perhitungan = [];        
+        for ($i=0; $i <count($countClashWeight) ; $i++) { 
+            $perhitungan[] = 1/(1+$countClashWeight[$i]+$countClashRack[$i]);
+        }
+        return $perhitungan;
+        // return [$countClashWeight,$countClashRack];
         // return $population;
 
     }
+
 
 }

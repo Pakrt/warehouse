@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('tax_id', 20)->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

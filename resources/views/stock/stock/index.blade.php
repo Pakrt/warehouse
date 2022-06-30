@@ -1,5 +1,5 @@
 @extends('layouts.template')
-@section('tittlePage', 'Barang Masuk')
+@section('tittlePage', 'Stok Barang')
 @section('tittleContent', '')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Dashboard</a></li>
@@ -32,35 +32,33 @@
                 @foreach ($rack2 as $rack2)
                 <div class="tab-pane fade show" id="custom-tabs-one-{{ $rack2->id }}" role="tabpanel" aria-labelledby="custom-tabs-one-{{ $rack2->id }}-tab">
                     <div class="row">
-                        @foreach ($rackDt as $as)
+                      <table width="100%">
+                        @foreach ($rackDt as $index => $as)
                             @if ($as->rack_id == $rack2->id)
-                                <div class="col-md-2 col-sm-6 col-12">
-                                    @if ($as->is_load == 1)
-                                        <div class="info-box">
-                                            <span class="info-box-icon bg-danger"><i class="fas fa-box"></i></span>  
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">{{ $rack2->name }} - {{ $as->number }}</span>
-                                                {{-- <span class="info-box-text">{{ $as->qty }} CT</span> --}}
-                                                <span class="info-box-number">{{ $as->qty }} CT - {{ $as->code }}</span>
-                                            </div>
-                                            <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                    @else
-                                        <div class="info-box">
-                                            <span class="info-box-icon bg-info"><i class="fas fa-box"></i></span>  
-                                            <div class="info-box-content">
-                                            <span class="info-box-text">{{ $rack2->name }} - {{ $as->number }}</span>
+                              @if ( ($index+10) % 10 == 0)
+                                <tr>
+                              @endif
+                                  <td class="{{$index+1}}" >
+                                    <div class="info-box">
+                                      <span class="info-box-icon @if ($as->is_load == 0) bg-info @else bg-danger  @endif "><i class="fas fa-box"></i></span>  
+                                      <div class="info-box-content">
+                                          <span class="info-box-text">{{ $rack2->name }} - {{ $as->number }}</span>
+                                          @if ($as->is_load == 1)
+                                            <span class="info-box-text">{{ $as->qty }} CT</span>
+                                            <span class="info-box-number">{{ $as->code }}</span>
+                                          @else
                                             <span class="info-box-number"></span>
-                                            </div>
-                                            <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                    @endif
-                                </div>
-                                <!-- /.col -->
+                                          @endif
+                                      </div>
+                                      <!-- /.info-box-content -->
+                                    </div>
+                                  </td>
+                                  @if ( ($index+1) % 10 == 0)
+                                </tr>
+                              @endif
                             @endif
                         @endforeach
+                      </table>
                     </div>
                     <!-- /.row -->
                 </div>

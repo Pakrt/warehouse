@@ -75,14 +75,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($items as $items)
+                        {{-- @foreach ($items as $items) --}}
                             @for ($i = 0; $i < count($request->itemsId); $i++)
-                                @if ($items->id == $request->itemsId[$i])
+                                {{-- @if ($items->id == $request->itemsId[$i]) --}}
                                 <tr style="width: 100%">
                                     <td class="text-center">{{ $i+1 }}</td>
                                     <td>
-                                        <input type="hidden" class="form-control" value="{{ $items->id }}" name="itemsId{{$i}}[]">
-                                        <input type="text" class="form-control" value="{{ $items->name }}" readonly>
+                                        {{-- <input type="hidden" class="form-control" value="{{ $items->id }}" name="itemsId{{$i}}[]"> --}}
+                                        {{-- <input type="text" class="form-control" value="{{ $items->name }}" readonly> --}}
+                                        <select class="form-control" name="itemsId{{$i}}[]" readonly>
+                                            @foreach ($items as $item)
+                                            <option @if ($item->id == $request->itemsId[$i]) value="{{ $item->id }}" selected @endif>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td>
                                         <input type="hidden" class="form-control" value="{{ $request->itemsCapacity[$i] }}" name="itemsCapacity[]">
@@ -103,9 +108,9 @@
                                     </td>
                                     @endfor
                                 </tr>
-                                @endif
+                                {{-- @endif --}}
                             @endfor
-                        @endforeach
+                        {{-- @endforeach --}}
                     </tbody>
                 </table>
             </div>

@@ -15,13 +15,15 @@ return new class extends Migration
     {
         Schema::create('stock_in_dt', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stock_in_id')->references('id')->on('stock_in');
-            $table->foreignId('item_id')->references('id')->on('items');
-            $table->string('qty');
+            $table->integer('stock_in_id');
+            $table->integer('item_id');
+            $table->double('qty');
             $table->date('date');
+            $table->date('expired_date')->nullable();
+            $table->date('production_date')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 

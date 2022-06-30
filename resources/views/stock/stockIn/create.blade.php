@@ -71,7 +71,7 @@
             <!-- /.card-body -->
             <div class="card-body">
                 @foreach ($items as $items)
-                    <input type="hidden" class="items" data-name="{{ $items->name }}" data-weight="{{ $items->weight }}" data-capacity="{{ $items->rack_capacity }}"
+                    <input type="hidden" class="items" data-name="{{ $items->name }}" data-weight="{{ $items->total_weight }}" data-capacity="{{ $items->rack_capacity }}"
                       data-code="{{ $items->code }}" data-unit="{{ $items->unit->code }}" value="{{ $items->id }}">
                 @endforeach
                 <table class="table table-striped" id="addItem" width="100%">

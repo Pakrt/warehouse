@@ -163,6 +163,40 @@ function chooseRack() {
     })
 }
 
+function generateAlgen() {
+    $.ajax({
+        url: "/stock/stockIn/generateAlgen?&generate=generate",
+        data: $(".form-data").serialize(),
+        type: 'POST',
+        processData: false,
+        success: function(data) {
+            $('.dropHere').empty();
+            var main = [];
+                
+            $.each(data.data, function (index,value) {
+                var mainDetail = [];
+                $.each(value.rack_number, function (index1,value1) {
+                    mainDetail[index1] = "<td><input readonly value='"+value1.id+"' class='form-control'  name='rackDtStore"+index+"[]'></td>";
+
+                });
+                main[index] = 
+                    "<tr style='width: 100%'>"+
+                        "<td class='text-center'>"+(index+1)+"</td>"+
+                        "<td>"+
+                            "<input readonly type='hidden' value='"+value.item.total_weight+"' name='itemsWeightStore"+index+"[]' class='form-control'>"+
+                            "<input readonly type='hidden' value='"+value.item.rack_capacity+"' name='itemsCapacityStore"+index+"[]' class='form-control'>"+
+                            "<input readonly type='hidden' value='"+value.item.id+"' name='itemsIdStore"+index+"[]' class='form-control'>"+
+                            "<input readonly type='hidden' value='"+data.t[index][0]+"' name='itemsQtyStore"+index+"[]' class='form-control'>"+
+                            "<input readonly value='"+value.item.name+"' class='form-control'>"+
+                        "</td>"+
+                            mainDetail+
+                    "</tr>";
+            });
+            $('.dropHere').append(main);
+        }
+    });
+}
+
 function algen() {
     $.ajax({
         url: "/stock/stockIn/algen",
@@ -170,11 +204,11 @@ function algen() {
         type: 'POST',
         processData: false,
         success: function(data) {
-            Swal.fire(
-            'Success!',
-            'Data berhasil disimpan',
-            'success'
-            )
+            // Swal.fire(
+            // 'Success!',
+            // 'Data berhasil disimpan',
+            // 'success'
+            // )
             // location.reload();
             // window.open("{{ route('stockIn.index') }}");
         }
@@ -183,47 +217,94 @@ function algen() {
 
 // Save Data
 function save() {
-    Swal.fire({
-        title: 'Apakah Anda Yakin ?',
-        text: "Anda akan menyimpan data Anda !",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Simpan Data'
-        }).then((willSave) => {
-        if (willSave) {
-            var validation = 0;
-            $('.validation').each(function () { 
-                if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
-                    validation++;
-                    toastr.options = {
-                        "progressBar" : true,
-                        "positionClass" : "toast-bottom-right"
-                    }
-                    toastr.error("Data Harus Diisi !", "Warning");
-                } else {
-                    validation-1;
-                }
-            });
-            if (validation != 0) {
-                return false;
-            }
+    // Swal.fire({
+    //     title: 'Apakah Anda Yakin ?',
+    //     text: "Anda akan menyimpan data Anda !",
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Simpan Data'
+    //     }).then((willSave) => {
+    //     if (willSave) {
+    //         var validation = 0;
+    //         $('.validation').each(function () { 
+    //             if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+    //                 validation++;
+    //                 toastr.options = {
+    //                     "progressBar" : true,
+    //                     "positionClass" : "toast-bottom-right"
+    //                 }
+    //                 toastr.error("Data Harus Diisi !", "Warning");
+    //             } else {
+    //                 validation-1;
+    //             }
+    //         });
+    //         if (validation != 0) {
+    //             return false;
+    //         }
             $.ajax({
                 url: "/stock/stockIn",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,
                 success: function(data) {
-                    Swal.fire(
-                    'Success!',
-                    'Data berhasil disimpan',
-                    'success'
-                    )
+                    // Swal.fire(
+                    // 'Success!',
+                    // 'Data berhasil disimpan',
+                    // 'success'
+                    // )
                     // location.reload();
-                    window.reload("{{ route('stockIn.index') }}");
+                    // window.reload("{{ route('stockIn.index') }}");
                 }
             });
-        }
-    })
+    //     }
+    // })
+}
+
+// Save Data Auto
+function save2() {
+    // Swal.fire({
+    //     title: 'Apakah Anda Yakin ?',
+    //     text: "Anda akan menyimpan data Anda !",
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Simpan Data'
+    //     }).then((willSave) => {
+    //     if (willSave) {
+    //         var validation = 0;
+    //         $('.validation').each(function () { 
+    //             if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+    //                 validation++;
+    //                 toastr.options = {
+    //                     "progressBar" : true,
+    //                     "positionClass" : "toast-bottom-right"
+    //                 }
+    //                 toastr.error("Data Harus Diisi !", "Warning");
+    //             } else {
+    //                 validation-1;
+    //             }
+    //         });
+    //         if (validation != 0) {
+    //             return false;
+    //         }
+            $.ajax({
+                url: "/stock/stockIn/store2",
+                data: $(".form-data").serialize(),
+                type: 'POST',
+                processData: false,
+                success: function(data) {
+                    // Swal.fire(
+                    // 'Success!',
+                    // 'Data berhasil disimpan',
+                    // 'success'
+                    // )
+                    // location.reload();
+                    // window.reload("{{ route('stockIn.index') }}");
+                }
+            });
+    //     }
+    // })
 }

@@ -15,6 +15,8 @@ class StockInDt extends Model
         'item_id',
         'qty',
         'date',
+        'production_date',
+        'expired_date',
         'created_at',
         'updated_at',
         'created_by',

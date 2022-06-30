@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
             ItemSeeder::class,
             SupplierSeeder::class,
+            RackSeeder::class,
+            RackDtSeeder::class,
         ]);
     }
 }
