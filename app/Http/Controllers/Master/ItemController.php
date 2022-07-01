@@ -39,9 +39,18 @@ class ItemController extends Controller
             'name' => 'required|string',
         ]);
 
-        $item = new Item;
-        $item->fill($request->all());
-        $item->save();
+        Item::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
+            'rack_capacity' => $request->rack_capacity,
+            'description' => $request->description,
+            'weight' => $request->weight,
+            'total_weight' => $request->weight*$request->rack_capacity,
+            'qty' => 0,
+            'created_by' => $request->created_by
+        ]);
 
         return Redirect::route('item.index')
         ->with([

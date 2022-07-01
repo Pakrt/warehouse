@@ -74,7 +74,7 @@ class StockInController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $id = StockIn::max('id')+1;
 
         StockIn::create([
@@ -100,6 +100,11 @@ class StockInController extends Controller
                 'expired_date' => date('Y-m-d'),
                 'created_by' => Auth::user()->id,    
             ]);
+
+            Item::where('id', $request->get('itemsId'.$i)[0])->update([
+                'qty' => $request->itemsQty[$i],
+            ]);
+
             for ($j=0; $j < count($request->get('rackDt'.$i)); $j++) {
                 if($j === array_key_last($request->get('rackDt'.$i))){
                     if ($request->itemsQty[$i]%$request->itemsCapacity[$i] == 0) {
@@ -113,7 +118,7 @@ class StockInController extends Controller
                 Stock::create([
                     'item_id' => $request->get('itemsId'.$i)[0],
                     'rack_dt_id' => $request->get('rackDt'.$i)[$j],
-                    'qty' => $perhitungan[$i][$j],
+                    'item_qty' => $perhitungan[$i][$j],
                     'description' => $request->description,
                     'expired_date' => date('Y-m-d'),
                     'production_date' => date('Y-m-d'),
@@ -170,9 +175,6 @@ class StockInController extends Controller
             for ($j=0; $j <count($qty) ; $j++) { 
                 $qtyw[$i][$j] = [$qty[$j],$itemsAwal[$i]->id];
             }
-
-            
-
         }
         $t = [];
 
@@ -184,8 +186,6 @@ class StockInController extends Controller
                 }
             }
         }
-        // return $t;
-        // return $qtyw;
         
         return Response::json([
             'status' => 'success',
@@ -223,20 +223,26 @@ class StockInController extends Controller
                 'expired_date' => $request->itemsExp[$i],
                 'created_by' => Auth::user()->id,    
             ]);
+
+            Item::where('id', $request->get('itemsIdStore'.$i)[0])->update([
+                'qty' => $request->itemsQty[$i],
+            ]);
+
             for ($j=0; $j < count($request->get('rackDtStore'.$i)); $j++) {
                 if($j === array_key_last($request->get('rackDtStore'.$i))){
-                    if ($request->itemsQty[$i]%$request->itemsCapacity[$i] == 0) {
-                        $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                    if ($request->get('itemsQtyStore'.$i)[0] % $request->get('itemsCapacityStore'.$i)[0] == 0) {
+                        $perhitungan[$i][$j] = $request->get('itemsCapacityStore'.$i)[0];
                     } else {
-                        $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
+                        $perhitungan[$i][$j] =  $request->get('itemsQtyStore'.$i)[0] % $request->get('itemsCapacityStore'.$i)[0];
                     }
                 } else {
-                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
+                    $perhitungan[$i][$j] = $request->get('itemsCapacityStore'.$i)[0];
                 }
+
                 Stock::create([
                     'item_id' => $request->get('itemsIdStore'.$i)[0],
                     'rack_dt_id' => $request->get('rackDtStore'.$i)[$j],
-                    'qty' => $perhitungan[$i][$j],
+                    'item_qty' => $perhitungan[$i][$j],
                     'description' => $request->description,
                     'expired_date' => $request->itemsExp[$i],
                     'production_date' => date('Y-m-d'),
@@ -353,7 +359,7 @@ class StockInController extends Controller
 
     public function inPopulasi($cromosomRack,$cromosomWeight)
     {        
-        $individu = 5;
+        $individu = 10;
         // $populationRack = [];
         $populationWeight = [];
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Master\Item;
 use App\Models\Master\Rack;
 use App\Models\Master\RackDt;
+use App\Models\Stock\Stock;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -24,6 +25,7 @@ class DashboardController extends Controller
         $item = Item::get();
         $rack = Rack::with('rackDt')->where('status', 'on')->get();
         $rackDt = RackDt::get();
+        $stock = Stock::get();
         $sumItem = count($item);
         $sumRack = count($rack);
         $sumUser = count($user);

@@ -14,6 +14,7 @@ class StockIn extends Model
         'invoice',
         'supplier_id',
         'date',
+        'clock',
         'description',
         'product_origin',
         'created_at',

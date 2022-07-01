@@ -44,7 +44,7 @@
                                       <div class="info-box-content">
                                           <span class="info-box-text">{{ $rack2->name }} - {{ $as->number }}</span>
                                           @if ($as->is_load == 1)
-                                            <span class="info-box-text">{{ $as->qty }} CT</span>
+                                            <span class="info-box-text">{{ $as->item_qty }} CT</span>
                                             <span class="info-box-number">{{ $as->code }}</span>
                                           @else
                                             <span class="info-box-number"></span>

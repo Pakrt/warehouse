@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('weight')->nullable();
             $table->double('total_weight')->nullable();
             $table->string('description')->nullable();
+            $table->double('qty')->nullable();
             $table->timestamps();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

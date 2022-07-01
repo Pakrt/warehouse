@@ -24,6 +24,7 @@ class ItemSeeder extends Seeder
                 'rack_capacity' => '50',
                 'weight' => '6060',
                 'total_weight' => '303000',
+                'qty' => '0',
             ],
             [
                 'code' => 'MJ15S',
@@ -33,6 +34,7 @@ class ItemSeeder extends Seeder
                 'rack_capacity' => '54',
                 'weight' => '5960',
                 'total_weight' => '321840',
+                'qty' => '0',
             ],
             [
                 'code' => 'MJ25S',
@@ -42,6 +44,7 @@ class ItemSeeder extends Seeder
                 'rack_capacity' => '75',
                 'weight' => '4940',
                 'total_weight' => '370500',
+                'qty' => '0',
             ],
             [
                 'code' => 'MJ10KG',
@@ -51,6 +54,7 @@ class ItemSeeder extends Seeder
                 'rack_capacity' => '55',
                 'weight' => '10650',
                 'total_weight' => '585750',
+                'qty' => '0',
             ]
         ]);
     }

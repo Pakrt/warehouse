@@ -217,94 +217,94 @@ function algen() {
 
 // Save Data
 function save() {
-    // Swal.fire({
-    //     title: 'Apakah Anda Yakin ?',
-    //     text: "Anda akan menyimpan data Anda !",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Simpan Data'
-    //     }).then((willSave) => {
-    //     if (willSave) {
-    //         var validation = 0;
-    //         $('.validation').each(function () { 
-    //             if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
-    //                 validation++;
-    //                 toastr.options = {
-    //                     "progressBar" : true,
-    //                     "positionClass" : "toast-bottom-right"
-    //                 }
-    //                 toastr.error("Data Harus Diisi !", "Warning");
-    //             } else {
-    //                 validation-1;
-    //             }
-    //         });
-    //         if (validation != 0) {
-    //             return false;
-    //         }
+    Swal.fire({
+        title: 'Apakah Anda Yakin ?',
+        text: "Anda akan menyimpan data Anda !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Simpan Data'
+        }).then((willSave) => {
+        if (willSave) {
+            var validation = 0;
+            $('.validation').each(function () { 
+                if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+                    validation++;
+                    toastr.options = {
+                        "progressBar" : true,
+                        "positionClass" : "toast-bottom-right"
+                    }
+                    toastr.error("Data Harus Diisi !", "Warning");
+                } else {
+                    validation-1;
+                }
+            });
+            if (validation != 0) {
+                return false;
+            }
             $.ajax({
                 url: "/stock/stockIn",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,
                 success: function(data) {
-                    // Swal.fire(
-                    // 'Success!',
-                    // 'Data berhasil disimpan',
-                    // 'success'
-                    // )
+                    Swal.fire(
+                    'Success!',
+                    'Data berhasil disimpan',
+                    'success'
+                    )
                     // location.reload();
-                    // window.reload("{{ route('stockIn.index') }}");
+                    window.reload("{{ route('stockIn.index') }}");
                 }
             });
-    //     }
-    // })
+        }
+    })
 }
 
 // Save Data Auto
 function save2() {
-    // Swal.fire({
-    //     title: 'Apakah Anda Yakin ?',
-    //     text: "Anda akan menyimpan data Anda !",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Simpan Data'
-    //     }).then((willSave) => {
-    //     if (willSave) {
-    //         var validation = 0;
-    //         $('.validation').each(function () { 
-    //             if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
-    //                 validation++;
-    //                 toastr.options = {
-    //                     "progressBar" : true,
-    //                     "positionClass" : "toast-bottom-right"
-    //                 }
-    //                 toastr.error("Data Harus Diisi !", "Warning");
-    //             } else {
-    //                 validation-1;
-    //             }
-    //         });
-    //         if (validation != 0) {
-    //             return false;
-    //         }
+    Swal.fire({
+        title: 'Apakah Anda Yakin ?',
+        text: "Anda akan menyimpan data Anda !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Simpan Data'
+        }).then((willSave) => {
+        if (willSave) {
+            var validation = 0;
+            $('.validation').each(function () { 
+                if ($(this).val() == '' || $(this).val() == null || $(this).val() == 0) {
+                    validation++;
+                    toastr.options = {
+                        "progressBar" : true,
+                        "positionClass" : "toast-bottom-right"
+                    }
+                    toastr.error("Data Harus Diisi !", "Warning");
+                } else {
+                    validation-1;
+                }
+            });
+            if (validation != 0) {
+                return false;
+            }
             $.ajax({
                 url: "/stock/stockIn/store2",
                 data: $(".form-data").serialize(),
                 type: 'POST',
                 processData: false,
                 success: function(data) {
-                    // Swal.fire(
-                    // 'Success!',
-                    // 'Data berhasil disimpan',
-                    // 'success'
-                    // )
+                    Swal.fire(
+                    'Success!',
+                    'Data berhasil disimpan',
+                    'success'
+                    )
                     // location.reload();
-                    // window.reload("{{ route('stockIn.index') }}");
+                    window.reload("{{ route('stockIn.index') }}");
                 }
             });
-    //     }
-    // })
+        }
+    })
 }

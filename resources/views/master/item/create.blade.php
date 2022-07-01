@@ -67,6 +67,7 @@
                             @error('rack_capacity')
                               <label for="rack_capacity" style="color: red">{{ $message }}</label>
                             @enderror
+                            <input class="form-control" type="hidden" id="qty" name="qty" min="0" value="0" required>
                         </div>
                     </div>
                     <div class="col-6">

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('item_id');
             $table->integer('rack_dt_id');
-            $table->string('qty');
+            $table->double('item_qty');
             $table->string('description')->nullable();
             $table->date('date')->nullable();
             $table->string('clock')->nullable();

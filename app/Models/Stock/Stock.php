@@ -12,7 +12,7 @@ class Stock extends Model
     protected $fillable = [
         'item_id',
         'rack_dt_id',
-        'qty',
+        'item_qty',
         'description',
         'date',
         'production_date',
