@@ -103,7 +103,7 @@
                 </ul> --}}
               </li>
               <li class="nav-item">
-                <a href="javascript:void(0)" class="nav-link">
+                <a href="{{ route('stockOut.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Barang Keluar</p>
                 </a>
@@ -111,9 +111,15 @@
             </ul>
           </li>
           <li class="nav-item">
+            <a href="{{ route('stock.racks') }}" class="nav-link">
+                <i class="nav-icon fab fa-bitbucket"></i>
+                <p>Stock Rak Penyimpanan</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ route('stock.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-boxes"></i>
-                <p>Stocks</p>
+                <p>Stock Barang</p>
             </a>
           </li>
         </ul>

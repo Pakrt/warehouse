@@ -35,4 +35,5 @@ require __DIR__.'/master/item.php';
 require __DIR__.'/master/rack.php';
 
 require __DIR__.'/stock/stockIn.php';
+require __DIR__.'/stock/stockOut.php';
 require __DIR__.'/stock/stock.php';

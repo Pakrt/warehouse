@@ -21,17 +21,36 @@ class StockController extends Controller
     {
         $rack = Rack::with('rackDt')->get();
         $rack2 = Rack::with('rackDt', 'rackDt.stock')->get();
-        // $rackDt = RackDt::with('stock')->orderBy('id', 'asc')->get();
         $stock = Stock::with('rackDt')->get();
         $rackDt = RackDt::with('stock')
         ->leftJoin('stocks', 'rack_dt.id', '=', 'stocks.rack_dt_id')
         ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
-        // ->leftJoin('units', 'units.id', '=', 'items.unit_id')
+        ->orderBy('rack_dt.id', 'desc')
+        ->get();
+        $item = Item::get();
+        $stock = Stock::with('rackDt')
+        ->leftJoin('rack_dt', 'stocks.id', '=', 'rack_dt.id')
+        ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
+        ->orderBy('rack_dt.id', 'desc')
+        ->get();
+        // return $stock;
+        
+        return view('stock.stock.index', compact('item', 'rack', 'rack2', 'rackDt', 'stock'));
+    }
+
+    public function stockRacks()
+    {
+        $rack = Rack::with('rackDt')->get();
+        $rack2 = Rack::with('rackDt', 'rackDt.stock')->get();
+        $stock = Stock::with('rackDt')->get();
+        $rackDt = RackDt::with('stock')
+        ->leftJoin('stocks', 'rack_dt.id', '=', 'stocks.rack_dt_id')
+        ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
         ->orderBy('rack_dt.id', 'desc')
         ->get();
         // return $rackDt;
         
-        return view('stock.stock.index', compact('rack', 'rack2', 'rackDt', 'stock'));
+        return view('stock.stock.indexRack', compact('rack', 'rack2', 'rackDt', 'stock'));
     }
 
     public function create()
