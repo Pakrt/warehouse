@@ -27,11 +27,12 @@ class StockController extends Controller
         ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
         ->orderBy('rack_dt.id', 'desc')
         ->get();
-        $item = Item::get();
-        $stock = Stock::with('rackDt')
-        ->leftJoin('rack_dt', 'stocks.id', '=', 'rack_dt.id')
-        ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
-        ->orderBy('rack_dt.id', 'desc')
+        $item = Item::with('stock')->get();
+        // return $item;
+        $stock = Stock::with('rackDt','item')
+        // ->leftJoin('rack_dt', 'stocks.id', '=', 'rack_dt.id')
+        // ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
+        // ->orderBy('rack_dt.id', 'desc')
         ->get();
         // return $stock;
         

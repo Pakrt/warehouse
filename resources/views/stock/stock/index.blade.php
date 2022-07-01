@@ -16,32 +16,48 @@
               <tr>
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Item</th>
-                <th class="text-center">Qty</th>
-                <th class="text-center">Asal Produk</th>
+                <th class="text-center">Produk Luar</th>
+                <th class="text-center">Produk Lokal</th>
+                <th class="text-center">Total</th>
+                {{-- <th class="text-center">Asal Produk</th> --}}
               </tr>
             </thead>
-            @php
-                $totalQty = 0;
-            @endphp
+           
             <tbody>
-                @foreach ($item as $item => $items)
+                @foreach ($item as $index => $items)
+                @php
+                    $totalQtyLuar = 0;
+                    $totalQtyDalam = 0;
+                    $rack = 0;
+                @endphp
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $items->name }}</td>
-                    {{-- @php
-                        $totalQty = 0;
-                        $qty = DB::table('stocks')->where('item_id', $items->id->select('item_qty')->get());
-                        $totalQty = sum($qty);
-                    @endphp --}}
-                    @foreach ($stock as $s => $stocks)
-                        @if ($items->id == $stocks->item_id)
-                            @php
-                                $totalQty += $stocks->item_qty;
-                            @endphp
-                        @endif
-                    @endforeach
-                    <td class="text-right">{{ $totalQty }} CT</td>
-                    <td> Produk Luar </td>
+                    <td>{{$index+1}}</td>
+                    <td>{{$items->name}}</td>
+                    <td class="text-right">
+                        @foreach ($items->stock as $index1 => $el)
+                        @php
+                        if ($el->rack_dt_id >= 1 && $el->rack_dt_id <= 60) {
+                            $totalQtyLuar +=$el->item_qty;
+                        } else {
+                        }
+                        @endphp    
+                        @endforeach
+                        {{$totalQtyLuar}} CT
+                    </td>
+                    <td class="text-right">
+                        @foreach ($items->stock as $index1 => $el)
+                        @php
+                        if ($el->rack_dt_id >= 1 && $el->rack_dt_id <= 60) {
+                        } else {
+                            $totalQtyDalam +=$el->item_qty;
+                        }
+                        @endphp    
+                        @endforeach
+                        {{$totalQtyDalam}} CT
+                    </td>
+                    <td class="text-right">
+                        {{$totalQtyLuar + $totalQtyDalam}} CT
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

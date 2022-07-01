@@ -5,6 +5,7 @@ namespace App\Models\Stock;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Master\RackDt;
+use App\Models\Master\Item;
 
 class Stock extends Model
 {
