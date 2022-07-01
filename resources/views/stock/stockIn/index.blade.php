@@ -54,7 +54,7 @@
                     <form action="{{ route('stockIn.destroy', $dt->id) }}" method="POST">
                       @method('delete')
                       @csrf
-                      <a href="{{ route('stockIn.edit', $dt->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
+                      {{-- <a href="{{ route('stockIn.edit', $dt->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp; --}}
                       <button type="submit" class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
