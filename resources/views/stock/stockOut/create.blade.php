@@ -74,12 +74,16 @@
                     <input type="hidden" class="items" data-name="{{ $items->name }}" data-weight="{{ $items->total_weight }}" data-capacity="{{ $items->rack_capacity }}"
                       data-code="{{ $items->code }}" data-unit="{{ $items->unit->code }}" value="{{ $items->id }}">
                 @endforeach
+                @foreach ($rackDt as $el)
+                    <input type="hidden" class="rackDtRaw" data-name="{{ $el->racks->name .'-'.$el->number  }}" 
+                     value="{{ $el->id }}">
+                @endforeach
                 <table class="table table-striped" id="addItem" width="100%">
                     <thead>
                         <tr>
                             <th class="text-center" width="5%">#</th>
                             <th class="text-center">ITEM</th>
-                            <th class="text-center" width="20%">QTY</th>
+                            {{-- <th class="text-center" width="20%">QTY</th> --}}
                             <th class="text-center" width="10%">RACK</th>
                             <th class="text-center" width="20%">EX DATE</th>
                             <th class="text-center" width="10%">AKSI</th>
@@ -99,8 +103,8 @@
             </div>
             <div class="modal-footer justify-content-between">
               <a href="{{ route('stockIn.index') }}" class="btn btn-secondary">Kembali</a>
-              <button type="button" class="btn btn-success" onclick="chooseRack()">Lanjutkan</button>
-              {{-- <button type="button" class="btn btn-success" onclick="save()" >Simpan Data</button> --}}
+              {{-- <button type="button" class="btn btn-success" onclick="chooseRack()">Lanjutkan</button> --}}
+              <button type="button" class="btn btn-success" onclick="save()" >Simpan Data</button>
             </div>
           </form>
       </div>
@@ -117,5 +121,5 @@
     var route = "{{ route('stockIn.chooseRack') }}";
 
 </script>
-<script src="{{ asset('assets/stock/stockIn.js') }}"></script>
+<script src="{{ asset('assets/stock/stockOut.js') }}"></script>
 @endsection

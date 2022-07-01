@@ -35,12 +35,15 @@ class StockOutController extends Controller
     {
         $suppliers = Supplier::all();
         $items = Item::all();
+        $rackDt = RackDt::with('racks')->get();
 
-        return view('stock.stockOut.create', compact('suppliers', 'items'));
+        return view('stock.stockOut.create', compact('suppliers', 'items','rackDt'));
     }
 
-    public function store(Request $request)
+    public function store(Request $req)
     {
+        // return $req->all();
+        
         //
     }
 
@@ -54,7 +57,7 @@ class StockOutController extends Controller
         //
     }
 
-    public function update(Request $request, StockOut $stockOut)
+    public function update(Request $req, StockOut $stockOut)
     {
         //
     }
