@@ -12,6 +12,7 @@ use App\Models\Stock\StockIn;
 use App\Models\Stock\StockInDt;
 use App\Models\Stock\StockOut;
 use App\Models\Stock\StockOutDt;
+use App\Models\Stock\StockOutRackDt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -42,63 +43,48 @@ class StockOutController extends Controller
 
     public function store(Request $req)
     {
-        return $req->all();
-        $id = StockIn::max('id')+1;
+        // return count($req->get('rackDtId'.'0'));
+        // return $req->all();
+        $id = StockOut::max('id')+1;
 
         StockOut::create([
             'id' => $id,
-            'invoice' => $request->invoice,
-            'supplier_id' => $request->supplier_id,
-            'date' => $request->date,
+            'invoice' => $req->invoice,
+            'supplier_id' => $req->supplier_id,
+            'date' => $req->date,
             'clock' => date('h:i:s'),
-            'product_origin' => $request->origin,
-            'description' => $request->description,
+            'product_origin' => $req->origin,
+            'description' => $req->description,
             'created_by' => Auth::user()->id,
         ]);
 
         $itemId = [];
         $rackId = [];
-        for ($i=0; $i < count($request->itemsQty); $i++) {
+        for ($i=0; $i < count($req->itemsId); $i++) {
+            $dt = StockOutDt::max('id')+1;
             StockOutDt::create([
-                'stock_in_id' => $id,
-                'item_id' =>  $request->get('itemsId'.$i)[0],
-                // 'qty' => $request->itemsQty[$i],
-                'date' => $request->date,
+                'id'=>$dt,
+                'stock_out_id' => $id,
+                'item_id' =>  $req->get('itemsId')[$i],
+                // 'qty' => $req->itemsQty[$i],
+                'date' => $req->date,
                 'production_date' => date('Y-m-d'),
                 'expired_date' => date('Y-m-d'),
                 'created_by' => Auth::user()->id,    
             ]);
 
-            Item::where('id', $request->get('itemsId'.$i)[0])->update([
-                'qty' => $request->itemsQty[$i],
-            ]);
+            for ($j=0; $j < count($req->get('rackDtId'.($i+1))); $j++) {
 
-            for ($j=0; $j < count($request->get('rackDt'.$i)); $j++) {
-                if($j === array_key_last($request->get('rackDt'.$i))){
-                    if ($request->itemsQty[$i]%$request->itemsCapacity[$i] == 0) {
-                        $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
-                    } else {
-                        $perhitungan[$i][$j] =  $request->itemsQty[$i]%$request->itemsCapacity[$i];
-                    }
-                } else {
-                    $perhitungan[$i][$j] = (int)$request->itemsCapacity[$i];
-                }
-                Stock::create([
-                    'item_id' => $request->get('itemsId'.$i)[0],
-                    'rack_dt_id' => $request->get('rackDt'.$i)[$j],
-                    'item_qty' => $perhitungan[$i][$j],
-                    'description' => $request->description,
-                    'expired_date' => date('Y-m-d'),
-                    'production_date' => date('Y-m-d'),
-                    'date' => $request->date,
-                    'clock' => date('h:i:s'),
-                    'item_weight' => $request->itemsWeight[$i],
-                    'created_by' => Auth::user()->id,
+                StockOutRackDt::create([
+                    'stock_out_dt_id'=>$req->get('rackDtId'.($i+1))[$j],
+                    'rack_dt_id'=>$dt,
                 ]);
-                RackDt::where('id', $request->get('rackDt'.$i)[$j])->update([
-                    'is_load' => 1,
+                RackDt::where('id', $req->get('rackDtId'.($i+1))[$j])->update([
+                    'is_load' => 0,
                     'updated_by' => Auth::user()->id,
                 ]);
+                Stock::where('rack_dt_id',$req->get('rackDtId'.($i+1))[$j])->delete();
+                // $gg = $
             }
         }
 

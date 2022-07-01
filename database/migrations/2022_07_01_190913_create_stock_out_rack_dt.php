@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stock_out_dt_id');
             $table->integer('rack_dt_id');
 
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

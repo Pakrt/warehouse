@@ -12,7 +12,9 @@ class StockOut extends Model
     protected $table = 'stock_out';
     protected $fillable = [
         'invoice',
-        'distributor_id',
+        // 'distributor_id',
+        'supplier_id',
+
         'date',
         'clock',
         'description',
