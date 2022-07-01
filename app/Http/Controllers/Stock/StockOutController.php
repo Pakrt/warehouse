@@ -3,10 +3,20 @@
 namespace App\Http\Controllers\Stock;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Item;
+use App\Models\Master\Rack;
+use App\Models\Master\RackDt;
+use App\Models\Master\Supplier;
+use App\Models\Stock\Stock;
+use App\Models\Stock\StockIn;
+use App\Models\Stock\StockInDt;
 use App\Models\Stock\StockOut;
 use App\Models\Stock\StockOutDt;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 class StockOutController extends Controller
 {
     public function __construct()
@@ -23,7 +33,10 @@ class StockOutController extends Controller
 
     public function create()
     {
-        //
+        $suppliers = Supplier::all();
+        $items = Item::all();
+
+        return view('stock.stockOut.create', compact('suppliers', 'items'));
     }
 
     public function store(Request $request)
