@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
             ItemSeeder::class,
             SupplierSeeder::class,
+            DistributorSeeder::class,
             RackSeeder::class,
             RackDtSeeder::class,
         ]);

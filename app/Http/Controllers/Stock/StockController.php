@@ -44,7 +44,7 @@ class StockController extends Controller
         $rack = Rack::with('rackDt')->get();
         $rack2 = Rack::with('rackDt', 'rackDt.stock')->get();
         $stock = Stock::with('rackDt')->get();
-        $rackDt = RackDt::with('stock')
+        $rackDt = RackDt::with('stock')->select('rack_dt.id','stocks.item_id','rack_dt.rack_id','rack_dt.number','rack_dt.is_load','stocks.item_qty','items.code')
         ->leftJoin('stocks', 'rack_dt.id', '=', 'stocks.rack_dt_id')
         ->leftJoin('items', 'items.id', '=', 'stocks.item_id')
         ->orderBy('rack_dt.id', 'desc')

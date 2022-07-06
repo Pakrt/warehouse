@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "User" middleware group. Now create something great!
 |
 */
-
+Route::get('/change-password', [UserController::class, 'changePassword'])
+    ->name('users.changePassword');
 Route::group(['prefix' => 'master'], function () {
-    Route::group(['prefix' => ''], function () {
-        Route::resource('user', UserController::class);
-    });
+    Route::resource('user', UserController::class);
 });

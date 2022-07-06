@@ -19,6 +19,7 @@ class Stock extends Model
         'production_date',
         'expired_date',
         'clock',
+        'product_origin',
         'item_weight',
         'created_at',
         'updated_at',

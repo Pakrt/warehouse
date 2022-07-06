@@ -7,6 +7,12 @@
 @endsection
 @section('content')
 <div class="container-fluid">
+  <div class="card-header">
+    <button type="button" class="btn btn-sm bg-gradient-info" data-toggle="modal" data-target="#modal-lg">
+        <i class="fas fa-plus-circle"></i> Tambah Data
+      </button>
+  </div>
+  <!-- /.card-header -->
   <div class="row">
       @foreach ($user as $user)
       <div class="col-3">
@@ -22,16 +28,25 @@
               <p class="text-muted text-center">&#64;{{ $user->username }}</p>
               <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item">
-                  <b>Position</b> <a class="float-right">{{ $user->role_id }}</a>
+                  <b>Position</b> <a class="float-right">{{ $user->roles->name }}</a>
                 </li>
                 <li class="list-group-item">
                   <b>Email</b> <a class="float-right">{{ $user->email }}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Friends</b> <a class="float-right">XXxxXX</a>
+                  <b>Username</b> <a class="float-right">{{ $user->username }}</a>
                 </li>
               </ul>
-              {{-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> --}}
+              @if (Auth::user()->role_id == 1 )
+              <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                @method('delete')
+                @csrf
+                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                <button type="submit" class="btn btn-danger float-right"
+                  onclick="return confirm('Anda akan menghapus data master !!')">
+                  <i class="fas fa-trash"></i></button>
+              </form>
+              @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -44,4 +59,4 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-@include('master.unit.create')
+@include('master.user.create')

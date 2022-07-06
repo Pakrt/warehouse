@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->date('date')->nullable();
             $table->string('clock')->nullable();
+            $table->string('product_origin')->nullable();
             $table->date('expired_date')->nullable();
             $table->date('production_date')->nullable();
             $table->double('item_weight')->nullable();

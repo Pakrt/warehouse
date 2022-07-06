@@ -37,18 +37,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="supplier">Asal Produk</label>
-                            <select class="form-control select validation" data-name="Asal Produk" name="origin" required>
+                            <select class="form-control select origin validation" data-name="Asal Produk" name="origin" required>
                                 <option value="-">- Select -</option>
                                 <option value="Produk Lokal">Produk Lokal</option>
                                 <option value="Produk Luar">Produk Luar</option>
                             </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="supplier">Supplier</label>
-                                <select class="form-control select validation" data-name="Supplier" name="supplier_id" required>
+                                <label for="distributor">Distributor</label>
+                                <select class="form-control select validation" data-name="Distributor" name="distributor_id" required>
                                     <option value="-">- Select -</option>
-                                    @foreach ($suppliers as $suppliers)
-                                    <option value="{{ $suppliers->id }}">{{ $suppliers->name }}</option>
+                                    @foreach ($distributors as $distributors)
+                                    <option value="{{ $distributors->id }}">{{ $distributors->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -76,14 +76,14 @@
                 @endforeach
                 @foreach ($rackDt as $el)
                     <input type="hidden" class="rackDtRaw" data-name="{{ $el->racks->name .'-'.$el->number  }}" 
-                     value="{{ $el->id }}">
+                     value="{{ $el->id }}" data-qty="{{ $el->stock[0]->item_qty }}">
                 @endforeach
                 <table class="table table-striped" id="addItem" width="100%">
                     <thead>
                         <tr>
                             <th class="text-center" width="5%">#</th>
                             <th class="text-center">ITEM</th>
-                            {{-- <th class="text-center" width="20%">QTY</th> --}}
+                            <th class="text-center" width="10%">QTY</th>
                             <th class="text-center" width="10%">RACK</th>
                             <th class="text-center" width="20%">EX DATE</th>
                             <th class="text-center" width="10%">AKSI</th>

@@ -24,13 +24,15 @@
           <table id="example1" class="table table-bordered table-striped" width="100%">
             <thead>
               <tr>
-                <th class="text-center" width="5%">#</th>
+                <th class="text-center" width="4%">#</th>
                 <th class="text-center">Invoice</th>
                 <th class="text-center">Tanggal</th>
+                <th class="text-center">Asal Barang</th>
+                <th class="text-center">Kode Barang</th>
+                <th class="text-center">Nama Barang</th>
                 <th class="text-center">Supplier</th>
-                <th class="text-center">Item</th>
                 <th class="text-center">Qty</th>
-                <th class="text-center">Aksi</th>
+                <th class="text-center">Keterangan</th>
               </tr>
             </thead>
             <tbody>
@@ -39,27 +41,36 @@
                   <td class="text-center">{{ $loop->iteration }}</td>
                   <td>{{ $dt->invoice }}</td>
                   <td>{{ \Carbon\Carbon::parse($dt->date)->locale('id')->isoFormat('LL') }}</td>
-                  <td>{{ $dt->supplier->name }}</td>
+                  <td>{{ $dt->product_origin }}</td>
                   <td>
                     @foreach ($dt->stockInDt as $as => $sd)
-                        {{ $sd->item->name }} <br>
-                    @endforeach
-                    </td>
-                  <td>
-                    @foreach ($dt->stockInDt as $qty => $ss)
-                        {{ $ss->qty }} <br>
+                        {{ $sd->item->code }} <br>
                     @endforeach
                   </td>
-                  <td class="text-center">
+                  <td>
+                   @foreach ($dt->stockInDt as $as => $sd)
+                      {{ $sd->item->name }} <br>
+                    @endforeach
+                  </td>
+                  <td>{{ $dt->supplier->name }}</td>
+                  <td>
+                    @foreach ($dt->stockInDt as $qty => $ss)
+                        {{ $ss->qty }} CT<br>
+                    @endforeach
+                  </td>
+                  <td>
+                    {{ $dt->description }}
+                  </td>
+                  {{-- <td>
                     <form action="{{ route('stockIn.destroy', $dt->id) }}" method="POST">
                       @method('delete')
                       @csrf
-                      {{-- <a href="{{ route('stockIn.edit', $dt->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp; --}}
+                      <a href="{{ route('stockIn.edit', $dt->id) }}" class="btn btn-outline-info btn-sm"><i class="fas fa-edit"></i></a>&emsp;
                       <button type="submit" class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
                     </form>
-                  </td>
+                  </td> --}}
                 </tr>
                 @endforeach
             </tbody>

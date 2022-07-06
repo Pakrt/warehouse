@@ -12,9 +12,7 @@ class StockOut extends Model
     protected $table = 'stock_out';
     protected $fillable = [
         'invoice',
-        // 'distributor_id',
-        'supplier_id',
-
+        'distributor_id',
         'date',
         'clock',
         'description',
@@ -28,5 +26,10 @@ class StockOut extends Model
     public function distributor ()
     {
         return $this->belongsTo(Distributor::class);
+    }
+
+    public function stockOutDt()
+    {
+        return $this->hasMany(StockOutDt::class);
     }
 }

@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'stock'], function () {
     Route::resource('stockOut', StockOutController::class)
     ->except('show');
-          
+    Route::get('stockOut/stockRackCheck', [StockOutController::class, 'stockRackCheck'])
+    ->name('stockOut.stockRackCheck');
 });

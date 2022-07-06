@@ -27,10 +27,11 @@
                 <th class="text-center" width="5%">#</th>
                 <th class="text-center">Invoice</th>
                 <th class="text-center">Tanggal</th>
-                <th class="text-center">Supplier</th>
-                <th class="text-center">Item</th>
+                <th class="text-center">Kode Barang</th>
+                <th class="text-center">Nama Barang</th>
+                <th class="text-center">Distributor</th>
                 <th class="text-center">Qty</th>
-                <th class="text-center">Aksi</th>
+                <th class="text-center">Keterangan</th>
               </tr>
             </thead>
             <tbody>
@@ -39,18 +40,24 @@
                   <td class="text-center">{{ $loop->iteration }}</td>
                   <td>{{ $dt->invoice }}</td>
                   <td>{{ \Carbon\Carbon::parse($dt->date)->locale('id')->isoFormat('LL') }}</td>
-                  <td>{{ $dt->supplier->name }}</td>
                   <td>
-                    @foreach ($dt->stockInDt as $as => $sd)
+                    @foreach ($dt->stockOutDt as $as => $sd)
+                        {{ $sd->item->code }} <br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach ($dt->stockOutDt as $as => $sd)
                         {{ $sd->item->name }} <br>
                     @endforeach
-                    </td>
+                  </td>
+                  <td>{{ $dt->distributor->name }}</td>
                   <td>
-                    @foreach ($dt->stockInDt as $qty => $ss)
+                    @foreach ($dt->stockOutDt as $qty => $ss)
                         {{ $ss->qty }} <br>
                     @endforeach
                   </td>
-                  <td class="text-center">
+                  <td>{{ $sd->description }}</td>
+                  {{-- <td class="text-center">
                     <form action="{{ route('stockIn.destroy', $dt->id) }}" method="POST">
                       @method('delete')
                       @csrf
@@ -59,7 +66,7 @@
                         onclick="return confirm('Anda akan menghapus data master !!')">
                         <i class="fas fa-trash"></i></button>
                     </form>
-                  </td>
+                  </td> --}}
                 </tr>
                 @endforeach
             </tbody>

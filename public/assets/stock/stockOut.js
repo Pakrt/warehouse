@@ -6,9 +6,7 @@ function addItem() {
     $.each($('.items'), function () {
         dataItems += "<option data-index='"+(index+1)+"' data-unit='"+$(this).data('unit')+"' data-capacity='"+$(this).data('capacity')+"' data-weight='"+$(this).data('weight')+"' value='"+this.value+"'>"+$(this).data('name')+"</option>";
     });
-    $.each($('.rackDtRaw'), function () {
-        dataRack += "<option data-index='"+(index+1)+"'  value='"+this.value+"'>"+$(this).data('name')+"</option>";
-    });
+   
     $('.dropItem').append(
         "<tr class='dataRow dataRow_"+(dataRow+1)+"'>"+
             "<td class='text-center' data-index='"+(index+1)+"'>" +(index+1)+ "</td>"+
@@ -20,19 +18,17 @@ function addItem() {
             "<td style='display:none'>"+
                 "<input type='text' class='form-control text-right itemsWeight itemsWeight_"+(index+1)+"' readonly name='itemsWeight[]' data-index='"+(index+1)+"'>"+
             "</td>"+
-            // "<td>"+
-            //     "<div class='input-group'>"+
-            //         "<input type='text' class='form-control text-right itemsQty itemsQty_"+(index+1)+"' name='itemsQty[]' data-index='"+(index+1)+"' value='0'>"+
-            //         // "<input type='text' class='form-control text-right itemsUnit itemsUnit_"+(index+1)+"' data-index='"+(index+1)+"' readonly>"+
-            //         "<div class='input-group-prepend'>"+
-            //         "<span class='input-group-text'>CT</span>"+
-            //         "</div>"+
-            //     "</div>"+
-            // "</td>"+
             "<td>"+
-            "<select class='form-control select-2 multiple rackDtId validation' multiple='multiple' name='rackDtId"+(index+1)+"[]'>"+
-                    dataRack+
-                "</select>"+
+                "<div class='input-group'>"+
+                    "<input type='text' readonly class='form-control text-right itemsQty itemsQty_"+(index+1)+"' name='itemsQty[]' data-index='"+(index+1)+"' value='0'>"+
+            //         // "<input type='text' class='form-control text-right itemsUnit itemsUnit_"+(index+1)+"' data-index='"+(index+1)+"' readonly>"+
+                    "<div class='input-group-prepend'>"+
+                    "<span class='input-group-text'>CT</span>"+
+                    "</div>"+
+                "</div>"+
+            "</td>"+
+            "<td class='dropSelect_"+(index+1)+"'>"+
+          
                 // "<input style='display:none' type='text' class='form-control text-right itemsCapacity itemsCapacity_"+(index+1)+"' readonly name='itemsCapacity[]' data-index='"+(index+1)+"'>"+
                 // "<input type='text' class='form-control text-right itemsRack itemsRack_"+(index+1)+"' readonly name='itemsRack[]' data-index='"+(index+1)+"' value='0'>"+
             "</td>"+
@@ -48,7 +44,12 @@ function addItem() {
     );
     $('.select2').select2();
 }
-
+// mengganti item
+$(document.body).on("change",".rackDtId",function(){
+    var index = $(this).find(':selected').data('index');
+  console.log($(this).find(':selected').data('index'));
+  $('.itemsQty_' + index).val($(this).find(':selected').data('qty'));
+});
 function totalRack() {
     var totalRack = 0;
     $('.itemsRack').each(function () {
@@ -83,7 +84,7 @@ $(document.body).on("keyup",".itemsQty", function () {
 // Mengganti Item
 $(document.body).on("change", ".itemsId", function () {
     var index = $(this).find(':selected').data('index');
-
+    var values = $(this).find(':selected').val();
     if ($(this).val() == '-') {
         $('.itemsWeight_' + index).val(0);
         $('.itemsUnit_' + index).val(' ');
@@ -114,6 +115,34 @@ $(document.body).on("change", ".itemsId", function () {
     }
 
     totalRack();
+    // console.log(index);
+    // console.log(values);
+    var origin = $('.origin').find(':selected').val();
+    $.ajax({
+        url: "/stock/stockOut/stockRackCheck",
+        data:  {'id':values,'origin':origin},
+        type: 'GET',
+        // processData: false,
+        success: function(data) {
+        //     Swal.fire(
+        //     'Success!',
+        //     'Data berhasil disimpan',
+        //     'success'
+        //     )
+            // location.reload();
+            // window.location = route+'?'+$(".form-data").serialize();
+            var dataRack = '';
+            // dataRack+="<option value='-'>- pilih -</option>";
+            $.each(data.data, function (i,val) {
+                dataRack += "<option data-index='"+(index)+"' data-qty='"+val.item_qty+"'  value='"+val.rack_dt[0].id+"'>"+val.rack_dt[0].racks.name+'-'+val.rack_dt[0].number+"</option>";
+            });
+            console.log(dataRack);
+            $('.dropSelect_'+index).html("<select class='form-control select-2 rackDtId validation'  name='rackDtId"+(index)+"[]' >"+
+            "<option value='-' selected data-index='"+(index)+"' data-qty='0'>- pilih -</option>"+
+                dataRack+
+            "</select>");
+        }
+    });
 });
 
 // Menghapus Baris Item
@@ -168,6 +197,9 @@ function chooseRack() {
         }
     })
 }
+
+
+
 
 function generateAlgen() {
     $.ajax({

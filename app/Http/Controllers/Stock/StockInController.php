@@ -122,6 +122,7 @@ class StockInController extends Controller
                     'description' => $request->description,
                     'expired_date' => date('Y-m-d'),
                     'production_date' => date('Y-m-d'),
+                    'product_origin' => $request->origin,
                     'date' => $request->date,
                     'clock' => date('h:i:s'),
                     'item_weight' => $request->itemsWeight[$i],
@@ -150,12 +151,120 @@ class StockInController extends Controller
         $item = [];
         $weight = $dataAwal[1];
         $rack = $dataAwal[0];
+        // return count($rack);
         $items = $dataAwal[2];
         $qty = $dataAwal[3];
+        $rackRaw = $dataAwal[4];
+        $stockNumber = $dataAwal[5];
+        $stockWeight = $dataAwal[6];
 
         $itemsAwal = Item::select('id','name')->whereIn('id', $items)->get();
         $rackAwal = RackDt::select('id','number')->whereIn('id', $rack)->get();
         $qtyw = [];
+        // return [$stockNumber,$stockWeight,(int)$weight[array_key_first($weight)]];
+        $hitung = 0;
+        // return $rackRaw[0];
+        for ($i=0; $i <count($rackRaw) ; $i++) { 
+                    if($stockWeight >= (int)$weight[array_key_first($weight)]){
+                         if($rackRaw[$i] > $stockNumber){
+                            // if($i < (count($rack)+1)){
+                                $rackRawCheck[] = $rackRaw[$i]; 
+                            // }
+                        }
+                        // return ' asd';
+                    }else{
+                        // return ' ss';
+
+                        if($rackRaw[0] < 7){
+                            if($rackRaw[$i] >= 7){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 13){
+                            if($rackRaw[$i] >= 13){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] <  19){
+                            // return 'asd';
+
+                            if($rackRaw[$i] >= 19){
+
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 25){
+                            // return 'assssss';
+
+                            if($rackRaw[$i] >= 25){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] <31){
+                            if($rackRaw[$i] >= 31){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 37){
+                            if($rackRaw[$i] >= 37){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 43){
+                            if($rackRaw[$i] >= 43){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 49){
+                            if($rackRaw[$i] >= 49){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 55){
+                            if($rackRaw[$i] >= 55){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 67){
+                            if($rackRaw[$i] >= 67){
+                                $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 73){
+                            if($rackRaw[$i] >= 73){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 79){
+                            if($rackRaw[$i] >= 79){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 85){
+                            if($rackRaw[$i] >= 85){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 91){
+                            if($rackRaw[$i] >= 91){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 97){
+                            if($rackRaw[$i] >= 97){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 103){
+                            if($rackRaw[$i] >= 103){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 109){
+                            if($rackRaw[$i] >= 109){
+                                 $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }else if($rackRaw[0] < 115){
+                            if($rackRaw[$i] >= 115){
+                               $rackRawCheck[]= $rackRaw[$i]; 
+                            }
+                        }
+                    }
+        }
+        // return [$stockWeight,(int)$weight[array_key_first($weight)],$items];
+        // return $rackRawCheck;
+        $asd = [];
+        for ($i=0; $i <count($rackRawCheck) ; $i++) { 
+            if($i < count($rack)){
+                $asd[] = $rackRawCheck[$i];
+            }
+        }
+        // return $asd;
+        // return $rack;
 
         for ($i=0; $i <count($itemsAwal) ; $i++) { 
             $item[$i]['item'] = Item::select('name','id','total_weight', 'rack_capacity')->where('id', $itemsAwal[$i]->id)->first();
@@ -164,11 +273,11 @@ class StockInController extends Controller
             for ($j=0; $j < count($items); $j++) { 
                 if($itemsAwal[$i]->id == $items[$j]){
 
-                    array_push($item[$i]['rack'],$rack[$j]);
+                    array_push($item[$i]['rack'],$asd[$j]);
                     array_push($item[$i]['rack_number'],
                         RackDt::leftJoin('racks', 'rack_dt.rack_id', '=', 'racks.id')
                         ->select('rack_dt.number','racks.name','rack_dt.id')
-                        ->where('rack_dt.id', $rack[$j])
+                        ->where('rack_dt.id', $asd[$j])
                         ->first());
                 }
             }
@@ -186,6 +295,7 @@ class StockInController extends Controller
                 }
             }
         }
+
         
         return Response::json([
             'status' => 'success',
@@ -244,6 +354,7 @@ class StockInController extends Controller
                     'rack_dt_id' => $request->get('rackDtStore'.$i)[$j],
                     'item_qty' => $perhitungan[$i][$j],
                     'description' => $request->description,
+                    'product_origin' => $request->origin,
                     'expired_date' => $request->itemsExp[$i],
                     'production_date' => date('Y-m-d'),
                     'date' => $request->date,
@@ -333,12 +444,37 @@ class StockInController extends Controller
         // return $genItems;
 
         // Mencari rak yang tersedia
-        $rackDtRaw = RackDt::with('racks')->get();
-        for ($i=0; $i <count($rackDtRaw) ; $i++) { 
+        if ($request->origin == 'Produk Lokal') {
+            $genRackKosong = 60;
+            $genRackBerat = 999999;
+        }else{
+            $genRackKosong = 0;
+            $genRackBerat = 999999;
+        }
+        $ddd = [];
+        $rackDtRaw = RackDt::with('racks','stock')->get();
+        for ($i=0; $i <count($rackDtRaw) ; $i++) {
+            if($rackDtRaw[$i]->is_load == 1 && $rackDtRaw[$i]->racks->area == $request->origin && $rackDtRaw[$i]->racks->status == 'on'){
+                $genRackKosong = $rackDtRaw[$i]->id;
+                $ddd[] = $rackDtRaw[$i]->id;
+                $genRackBerat = $rackDtRaw[$i]->stock[0]->item_weight;
+            }
             if($rackDtRaw[$i]->is_load == 0 && $rackDtRaw[$i]->racks->area == $request->origin && $rackDtRaw[$i]->racks->status == 'on'){
-                $genRack[] = $rackDtRaw[$i]->id;
+                // if($rackDtRaw[$i]->id > $genRackKosong){
+                    $genRackssRaww[] = $rackDtRaw[$i]->id;
+                // }
             }
         }
+
+        for ($i=0; $i <count($genRackssRaww) ; $i++) { 
+            if ($genRackssRaww[$i] > $genRackKosong) {
+                $genRack[] = $genRackssRaww[$i];
+                
+            }
+        }
+        // return $genRacks;
+        // return 'asd';
+        // return $genRackKosong;
 
         $cromosomRack = [];
         $cromosomWeight = [];
@@ -350,8 +486,10 @@ class StockInController extends Controller
                 $cromosomWeight[] = $genWeight[$i];
             }
         }
+        // return [$genRack,$genRackKosong];    
+
         if($request->generate != null || $request->generate != '' || $request->generate == 'generate'){
-            return [$cromosomRack,$cromosomWeight,$genItems,$qty];
+            return [$cromosomRack,$cromosomWeight,$genItems,$qty,$genRack,$genRackKosong,$genRackBerat];
         }else{
             return $this->inPopulasi($cromosomRack,$cromosomWeight);
         }

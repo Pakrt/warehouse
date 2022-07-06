@@ -63,21 +63,24 @@
             <img src="{{asset('template')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             <p>
               {{ Auth::user()->name }}
-              <small>Admin Gudang</small>
+              <small>{{ Auth::user()->roles->name }} Gudang</small>
             </p>
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-            <a href="#" class="btn btn-info btn-rounded btn-sm">Profile</a>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault();
-              document.getElementById('logout-form').submit();"
-              class="btn btn-warning btn-rounded btn-sm float-right">{{ __('Logout') }}
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-              @csrf
-            </form>
+            <a href="{{ route('user.edit', Auth::user()->id) }}" class="btn btn-info btn-rounded btn-sm">Profile</a>
+            <a href="{{ route('users.changePassword') }}" class="btn btn-warning btn-rounded btn-sm float-right">{{ __('Ganti Password') }}</a>
           </li>
         </ul>
+      </li>
+      <li>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+          document.getElementById('logout-form').submit();"
+          class="btn btn-default "><i class="fas fa-sign-out-alt"></i>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+          @csrf
+        </form>
       </li>
     </ul>
 </nav>
